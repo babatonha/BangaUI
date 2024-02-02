@@ -1,0 +1,53 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.toggle-button{
+  color: white !important;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+
+
+//Make my menu flexible
+
+@media (min-width: 900px) {
+  #menuIcon {
+      display: none;
+  }
+
+  .mat-sidenav {
+      display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .top-menu-item {
+      display: none;
+  }
+}
+
+
+
+
+
+
+

@@ -1,3 +1,50 @@
-<p>
-  nav-bar works!
-</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+
+      <button   mat-icon-button
+        id="menuIcon"
+        aria-label="Example icon-button with menu icon"
+        [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button routerLink="/home"  mat-menu-item>Home</button>
+        <button routerLink="/home" mat-menu-item>Properties</button>
+        <button routerLink="/register" mat-menu-item>Admin</button>
+        <button routerLink="/login" mat-flat-button>Login</button>
+      </mat-menu>
+
+      <span>BANGA</span>
+
+      <span class="example-spacer"></span>
+
+      <mat-slide-toggle
+        color="primary"
+        [formControl]="switchTheme"
+        class="toggle-button"
+        >Dark Mode
+      </mat-slide-toggle>
+
+      <span class="example-spacer"></span>
+
+      <a routerLink="/home" class="top-menu-item" mat-button>Home</a>
+      <a routerLink="/home" class="top-menu-item" mat-button>Properties</a>
+      <a routerLink="/register" class="top-menu-item" mat-button>Admin</a>
+
+      <a *ngIf="!loggedInUser" routerLink="/login" class="top-menu-item" mat-flat-button>Login</a>
+
+      <button mat-flat-button  *ngIf="loggedInUser" [matMenuTriggerFor]="menulogin">Hi {{loggedInUser.userName}}</button>
+      <mat-menu #menulogin="matMenu">
+        <button routerLink="/home"  mat-menu-item>Profile</button>
+        <button (click)="logout()" mat-menu-item>Logout</button>
+      </mat-menu>
+
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+

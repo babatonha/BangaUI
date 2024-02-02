@@ -1,7 +1,5 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavBarComponent } from './nav-bar.component';
 
@@ -9,11 +7,10 @@ describe('NavBarComponent', () => {
   let component: NavBarComponent;
   let fixture: ComponentFixture<NavBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavBarComponent ]
-    })
-    .compileComponents();
+      imports: [NoopAnimationsModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,7 +19,7 @@ describe('NavBarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should compile', () => {
     expect(component).toBeTruthy();
   });
 });
