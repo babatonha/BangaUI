@@ -10,12 +10,12 @@
       </button>
       <mat-menu #menu="matMenu">
         <button routerLink="/home"  mat-menu-item>Home</button>
-        <button routerLink="/home" mat-menu-item>Properties</button>
+        <button routerLink="/property-list" mat-menu-item>Properties</button>
         <button routerLink="/register" mat-menu-item>Admin</button>
         <button routerLink="/login" mat-flat-button>Login</button>
       </mat-menu>
 
-      <span>BANGA</span>
+      <span class="logo" routerLink="/home" >BANGA</span>
 
       <span class="example-spacer"></span>
 
@@ -29,7 +29,7 @@
       <span class="example-spacer"></span>
 
       <a routerLink="/home" class="top-menu-item" mat-button>Home</a>
-      <a routerLink="/home" class="top-menu-item" mat-button>Properties</a>
+      <a routerLink="/property-list" class="top-menu-item" mat-button>Properties</a>
       <a routerLink="/register" class="top-menu-item" mat-button>Admin</a>
 
       <a *ngIf="!loggedInUser" routerLink="/login" class="top-menu-item" mat-flat-button>Login</a>

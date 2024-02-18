@@ -11,6 +11,7 @@ import { AccountService } from '../../_services/account.service';
 import { Login } from '../../_models/login';
 import { User } from '../../_models/user';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   myForm!: FormGroup;
   constructor(private fb: FormBuilder,
     private accountService: AccountService,
+    private toastr: ToastrService,
     private router: Router) { }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit {
         },
         error: error => {
           if(error && error.status === 401){
-            
+            this.toastr.warning("Wrong username or password");
           }
         }
       })

@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../_services/account.service';
 import { User } from '../../_models/user';
 
@@ -48,20 +48,26 @@ export class NavBarComponent implements OnInit {
   .pipe(map((result) => result.matches));
 
   constructor(private overlay: OverlayContainer,
+    private router : Router,
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService) {
 
   }
   ngOnInit(): void {
     this.switchTheme.valueChanges.subscribe((currentMode) => {
-      this.className = currentMode ? this.darkTheme : this.lightTheme;
 
+      this.className = currentMode ? this.darkTheme : this.lightTheme;
+      
       if(currentMode){
         this.overlay.getContainerElement().classList.add(this.darkTheme);
+        localStorage.setItem("theme", "dark");
       }else{
         this.overlay.getContainerElement().classList.remove(this.darkTheme);
+        localStorage.setItem("theme", "light");
       }
     })
+
+    this.tryGetPreviousThemePreference();
 
     this.getCurrentUser();
   }
@@ -79,8 +85,23 @@ export class NavBarComponent implements OnInit {
     })
   }
 
+  tryGetPreviousThemePreference(){
+    const current  = localStorage.getItem("theme");
+
+    this.className = current === "dark" ? this.darkTheme : this.lightTheme;
+
+     if(current ==="dark"){
+      this.switchTheme.setValue(true);
+      this.overlay.getContainerElement().classList.add(this.darkTheme);
+    }else{
+      this.switchTheme.setValue(false);
+      this.overlay.getContainerElement().classList.remove(this.darkTheme);
+    }
+  }
+
   logout(){
     this.accountService.logout();
     this.loggedInUser = undefined;
+    this.router.navigate(['/login']);
   }
 }

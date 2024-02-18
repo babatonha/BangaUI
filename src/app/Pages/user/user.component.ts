@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { response } from 'express';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
   standalone:true,
-  imports:[CommonModule, HttpClientModule]
+  imports:[CommonModule]
 })
 export class UserComponent implements OnInit {
   users:any;

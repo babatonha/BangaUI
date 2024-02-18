@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { AccountService } from './_services/account.service';
 import { User } from './_models/user';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,9 @@ import { User } from './_models/user';
     CommonModule,
     NavBarComponent,
   ],
+  providers:[
+    // {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -49,12 +53,10 @@ export class AppComponent  implements OnInit{
 
   setCurrentUser(){
     const userString = localStorage.getItem("user");
-    
+
     if(userString){
       const user: User = JSON.parse(userString);
       this.accountService.setCurrentUser(user);
     }
-   
   }
-
 }

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { AccountService } from '../../_services/account.service';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -40,11 +41,12 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
+    private toastr: ToastrService,
     private accountService: AccountService) { }
 
   ngOnInit() {
     this.myForm = this.fb.group({
-      userName: ['', [Validators.required, Validators.minLength(4)]],
+      userName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{4,10}$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)]]
     });
@@ -56,11 +58,11 @@ export class RegisterComponent implements OnInit {
 
     this.accountService.register(this.registerModel).subscribe({
         next: (response) => {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/login']);
         },
         error: (error) => {
           if(error.status == 400){
-            console.log(error.statusMessage)
+           this.toastr.warning(error);
           }
         }
       });
