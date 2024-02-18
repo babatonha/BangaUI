@@ -1,0 +1,54 @@
+<div class="center-content">
+  <mat-card class="example-card">
+
+    <div class="form-title">
+      <mat-card-title>Register</mat-card-title>
+    </div>
+    
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="dense-1">
+          <mat-form-field class="example-full-width" appearance="outline" >
+            <mat-label class="label-style">Username</mat-label>
+            <input type="text" formControlName="userName"  matInput placeholder="Username" value="" >
+            <mat-error *ngIf="myForm.controls['userName'].hasError('required')">Username is required</mat-error>
+            <mat-error *ngIf="myForm.controls['userName'].hasError('pattern')">Username should have min of 4 and max 10 characters</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="dense-1">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label class="label-style">Email</mat-label>
+            <input type="email" formControlName="email" matInput placeholder="Email" value="" >
+            <mat-error *ngIf="myForm.controls['email'].hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="myForm.controls['email'].hasError('email')">Wrong email format</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="dense-1">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label class="label-style">Password</mat-label>
+            <input formControlName="password"  matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="myForm.controls['password'].hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="myForm.controls['password'].hasError('minLength')">Password should have at least 8 characters</mat-error>
+            <mat-error *ngIf="myForm.controls['password'].hasError('pattern')">Minmum 8 Characters, lowercase, uppercase, and digits.</mat-error>
+          </mat-form-field>         
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="!myForm.valid">Register</button>
+        <br>
+        <div style="font-size: 12px;">
+          <a>Already have Account ? </a>  <mat-label class="redirect-link" routerLink="/login">Login</mat-label>
+        </div>
+        
+      </form>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

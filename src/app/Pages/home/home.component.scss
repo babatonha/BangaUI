@@ -1,0 +1,16 @@
+
+@media (max-width: 600px) {
+  .home-content{
+    margin-right: 0;
+    margin-left: 0;
+
+  }
+}
+
+
+@media (min-width: 601px) {
+  .home-content{
+    margin-right: 5rem;
+    margin-left: 5rem;
+  }
+}

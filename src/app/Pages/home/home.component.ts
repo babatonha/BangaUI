@@ -1,20 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UserComponent } from '../user/user.component';
-
+import { PropertyListComponent } from '../property/property-list/property-list.component';
+import { SearchBarComponent } from '../../shared/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [CommonModule, UserComponent],  
+  imports: [
+    PropertyListComponent,
+    SearchBarComponent
+  ],
 })
 export class HomeComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {
 
-  ngOnInit() { 
   }
-
 }

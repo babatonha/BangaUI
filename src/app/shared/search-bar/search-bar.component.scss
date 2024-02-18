@@ -1,0 +1,13 @@
+.example-form {
+  display: flex;
+  align-items: center;
+}
+
+.example-full-width {
+  flex-grow: 1;
+  margin-right: 8px; /* Add some spacing between the input and button */
+}
+
+.example-button {
+  min-width: 64px; /* Set a minimum width for the button */
+}
