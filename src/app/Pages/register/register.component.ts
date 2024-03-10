@@ -12,6 +12,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { AccountService } from '../../_services/account.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TextInputComponent } from '../../shared/forms/text-input/text-input.component';
+import { PasswordInputComponent } from '../../shared/forms/password-input/password-input.component';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +31,9 @@ import { ToastrService } from 'ngx-toastr';
     MatTabsModule,
     MatIconModule,
     MatDividerModule,
-    RouterModule
+    RouterModule,
+    TextInputComponent,
+    PasswordInputComponent
   ],
 })
 export class RegisterComponent implements OnInit {
@@ -59,11 +63,6 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(this.registerModel).subscribe({
         next: (response) => {
           this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          if(error.status == 400){
-           this.toastr.warning(error);
-          }
         }
       });
     }

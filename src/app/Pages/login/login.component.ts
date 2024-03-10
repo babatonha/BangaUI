@@ -12,6 +12,8 @@ import { Login } from '../../_models/login';
 import { User } from '../../_models/user';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TextInputComponent } from '../../shared/forms/text-input/text-input.component';
+import { PasswordInputComponent } from '../../shared/forms/password-input/password-input.component';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +30,9 @@ import { ToastrService } from 'ngx-toastr';
     MatInputModule,
     MatIconModule,
     MatDividerModule,
-    RouterModule
+    RouterModule,
+    TextInputComponent,
+    PasswordInputComponent
   ],
 })
 export class LoginComponent implements OnInit {

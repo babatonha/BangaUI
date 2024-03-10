@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
-import { response } from "express";
+import { Property } from "../_models/property";
 
 @Injectable({
     providedIn: 'root'
@@ -18,5 +18,9 @@ import { response } from "express";
 
     getPropertyById(propertyId: number){
       return this.http.get<any>(`${this.baseService.baseUrl}Property/${propertyId}`);
-  }
+    }
+    
+    createProperty(property: Property){
+      return this.http.post<any>(`${this.baseService.baseUrl}Property`, property);
+    }
   }

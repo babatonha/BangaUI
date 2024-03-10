@@ -5,6 +5,8 @@ import {
   HttpRequest,
  } from "@angular/common/http";
 import { inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
  import { catchError, throwError } from "rxjs";
  
@@ -14,10 +16,13 @@ import { ToastrService } from "ngx-toastr";
  ) => {
 
   const toastr = inject(ToastrService);
+  const router = inject(Router);
+  const spinnerService = inject(NgxSpinnerService);
   
   return next(req).pipe(
    catchError((error: HttpErrorResponse) => {
      if(error){
+      spinnerService.hide();
       switch(error.status) {
         case 400: 
           if(error.error.errors){
@@ -34,7 +39,8 @@ import { ToastrService } from "ngx-toastr";
           }
           break;
         case 401: 
-          toastr.error(error.error);
+          toastr.error("Unauthorized");
+          router.navigate(['/login']);
           break;
         case 404: 
           toastr.warning("No data found");

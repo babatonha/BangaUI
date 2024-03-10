@@ -1,66 +1,61 @@
 
-<mat-card class="custom-card">
-  <div class="card-container">
-    <gallery *ngIf="propertyDetails?.propertyPhotos"
+<mat-card>
+  <mat-card-content>
+  <gallery *ngIf="propertyDetails?.propertyPhotos"
       [items]="images" 
       [imageSize]="'cover'"
       [thumb]="false"
       [nav]="true"
       [dots]="true"
-     >
-    </gallery>
+    >
+  </gallery>
 
-    <h1>{{propertyDetails?.property?.price | currency}}</h1>
- 
+  <h1>{{propertyDetails?.property?.price | currency}}</h1>
+
   <div class="icon-div">
     <mat-icon class="details-icon">place</mat-icon>
     <div> {{propertyDetails?.property?.cityName}} </div>
   </div>
 
-    <div class="card-content">
-      <mat-card-content>
+    <div class="icon-parent">
+      <div class="icon-div">
+        <mat-icon class="details-icon">hotel</mat-icon>
+        <div>{{propertyDetails?.property?.numberOfRooms}} Bedrooms</div>
+      </div>
 
-        <div class="icon-parent">
-          <div class="icon-div">
-            <mat-icon class="details-icon">hotel</mat-icon>
-            <div>{{propertyDetails?.property?.numberOfRooms}} Bedrooms</div>
-          </div>
-  
-          <div class="icon-div">
-            <mat-icon class="details-icon">hot_tub</mat-icon>
-            <div>{{propertyDetails?.property?.numberOfBathrooms}} Bathrooms</div>
-          </div>
-        </div>
-
-        <div class="icon-parent">
-          <div class="icon-div">
-            <mat-icon class="details-icon">settings_overscan</mat-icon>
-            <div>{{propertyDetails?.property?.numberOfRooms}} m<sup>2</sup></div>
-          </div>
-          <div class="icon-div">
-            <mat-icon class="details-icon">directions_car</mat-icon>
-            <div>{{propertyDetails?.property?.parkingSpots}} Car Park</div>
-          </div>
-        </div>
-
-
-
-        <div>
-          <h1>Description</h1>
-          {{propertyDetails?.property?.description}}
-        </div>
-
-        <div>
-          <h1>Amenities</h1>
-          Good zesa, Municipal water, veranda, walled.
-        </div>
-
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>Make An Offer</button>
-        <button mat-button>Contact Owner</button>
-        <button mat-button>Back To List</button>
-      </mat-card-actions>
+      <div class="icon-div">
+        <mat-icon class="details-icon">hot_tub</mat-icon>
+        <div>{{propertyDetails?.property?.numberOfBathrooms}} Bathrooms</div>
+      </div>
     </div>
-  </div>
+
+    <div class="icon-parent">
+      <div class="icon-div">
+        <mat-icon class="details-icon">settings_overscan</mat-icon>
+        <div>{{propertyDetails?.property?.numberOfRooms}} m<sup>2</sup></div>
+      </div>
+      <div class="icon-div">
+        <mat-icon class="details-icon">directions_car</mat-icon>
+        <div>{{propertyDetails?.property?.parkingSpots}} Car Park</div>
+      </div>
+    </div>
+
+
+
+    <div>
+      <h1>Description</h1>
+      {{propertyDetails?.property?.description}}
+    </div>
+
+    <div>
+      <h1>Amenities</h1>
+      Good zesa, Municipal water, veranda, walled.
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>Make An Offer</button>
+    <button mat-button>Contact Owner</button>
+    <button mat-button>Back To List</button>
+  </mat-card-actions>
 </mat-card>

@@ -1,0 +1,11 @@
+<div class="dense-1">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label class="label-style">{{label}}</mat-label>
+    <mat-select>
+      @for (option of options; track options) {
+        <mat-option [value]="options">{{option.viewValue}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
+

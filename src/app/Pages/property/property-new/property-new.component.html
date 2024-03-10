@@ -1,0 +1,174 @@
+
+<div class="container">
+  <mat-card class="example-card">
+
+
+    <div class="form-title">
+      <mat-card-title class="title">Property</mat-card-title>
+    </div>
+    
+    <mat-divider></mat-divider>
+
+
+    <mat-card-content>
+      <mat-stepper [linear]="isLinear" #stepper>
+
+        <mat-step [stepControl]="myForm" >
+          <h2 class="title">Details</h2>
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">
+      
+                  <div class="dense-1">
+                    <mat-form-field  class="example-full-width" appearance="outline">
+                      <mat-label class="label-style">Property Type</mat-label>
+                      <mat-select formControlName="propertyTypeId">
+                        @for (option of propertyTypes; track propertyTypes) {
+                          <mat-option [value]="option.propertyTypeId">{{option.name}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+      
+                  <div class="dense-1">
+                    <mat-form-field  class="example-full-width" appearance="outline">
+                      <mat-label class="label-style">Law Firm</mat-label>
+                      <mat-select formControlName="assignedLawyerId">
+                        @for (option of lawFirms; track lawFirms) {
+                          <mat-option [value]="option.lawFirmID">{{option.lawFirmName}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+      
+                  <div class="dense-1">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label class="label-style">City</mat-label>
+                      <mat-select formControlName="cityId">
+                        @for (option of cities; track cities) {
+                          <mat-option [value]="option.cityId">{{option.name}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+      
+                  <app-text-input
+                    type="text"
+                    [formControl]="$any(myForm.controls['address'])"
+                    [label]="'Address'">
+                  </app-text-input>
+      
+                  <app-text-input
+                    type="text"
+                    [formControl]="$any(myForm.controls['description'])"
+                    [label]="'Description'">
+                  </app-text-input>
+      
+          
+      
+                </div>
+      
+                <div class="col-sm">
+
+                  <app-text-input
+                  type="number"
+                  [formControl]="$any(myForm.controls['price'])"
+                  [label]="'Price'">
+                  </app-text-input>
+      
+                  <app-text-input
+                    type="number"
+                    [formControl]="$any(myForm.controls['numberOfRooms'])"
+                    [label]="'Number Of Rooms'">
+                  </app-text-input>
+      
+                  <app-text-input
+                    type="number"
+                    [formControl]="$any(myForm.controls['numberOfBathrooms'])"
+                    [label]="'Number Of Bathrooms'">
+                  </app-text-input>
+      
+                  <app-text-input
+                    type="number"
+                    [formControl]="$any(myForm.controls['parkingSpots'])"
+                    [label]="'Number Of Parking Spaces'">
+                  </app-text-input>
+      
+                  <app-text-input
+                    type="text"
+                    [formControl]="$any(myForm.controls['youtubeUrl'])"
+                    [label]="'Youtube Url'">
+                  </app-text-input>
+             
+                </div>
+              </div>
+            </div>
+      
+            <button mat-flat-button color="primary" type="submit" matStepperNext [disabled]="!myForm.valid">Save And Continue</button>
+                  
+          </form>
+        </mat-step>
+      
+      
+        <mat-step [stepControl]="myForm" >
+          <form [formGroup]="myForm">
+            <div class="row">
+              <div class="col-sm">
+                <app-photo-editor></app-photo-editor>
+              </div>
+
+              <div class="col-sm">
+
+                <div class="container mt-4">
+                  <div class="row">
+                    <label *ngIf="propertyPhotos.length===0">No Photos</label>
+
+                    @for (item of propertyPhotos; track $index) {
+                      <div class="col-md-4">
+                        <div class="image-container">
+                          <img src={{item.photoUrl}} class="img-fluid" alt="Image 1">
+                          <button class="delete-btn" onclick="deleteImage(this)">Delete</button>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+      
+      
+        <mat-step>
+          
+          <div class="centered-div">
+            <i class="material-icons done-icon">done</i>
+            <p>You have completed the process</p>
+          </div>
+      
+      
+          
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+
+
+

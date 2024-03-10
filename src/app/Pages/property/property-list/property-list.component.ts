@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { Property } from '../../../_models/property';
 import { PropertyService } from '../../../_services/property.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -31,19 +32,28 @@ import { Router } from '@angular/router';
      MatGridListModule,
      MatListModule,
      MatIconModule,
-     MatPaginatorModule]
+     MatPaginatorModule,
+     NgxSpinnerModule]
 })
 export class PropertyListComponent implements OnInit {
 
   propertyDatasource : Property[] = []
 
   constructor(private propertyService: PropertyService,
-    private router: Router) {}
+    private router: Router,
+    private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
+    this.getAllProperties();
+
+  }
+
+  getAllProperties(){
+    this.spinner.show(); 
     this.propertyService.getAllProperties().subscribe({
       next: response => {
         this.propertyDatasource = response;
+        this.spinner.hide();
       }
     })
   }

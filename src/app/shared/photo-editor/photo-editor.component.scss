@@ -1,0 +1,39 @@
+.my-drop-zone { border: dotted 3px lightgray; }
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+
+.text-size{
+    font-size: small;
+}
+
+.table-style {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  /* Style the table headers */
+  .table-style th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Style the table data cells */
+  .table-style td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+ 
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
