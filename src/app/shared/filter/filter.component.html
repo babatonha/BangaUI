@@ -1,0 +1,116 @@
+
+
+
+<mat-card>
+  <mat-card-header>
+    <a class="link-filters" (click)="toggleFilters()">More Filters >>>>> </a> 
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <div id="filters">
+      <form [formGroup]="myForm" (ngSubmit)="onFilterSubmit()">
+      
+          <div class="dense-1">
+            <mat-form-field  class="example-full-width" appearance="outline">
+              <mat-label class="label-style">Property Type</mat-label>
+              <mat-select formControlName="propertyTypeId" (selectionChange)="refreshFormOnValueChange()">
+                @for (option of propertyTypes; track propertyTypes) {
+                  <mat-option [value]="option.propertyTypeId">{{option.name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        <div class="dense-1">
+          <mat-form-field  class="example-full-width" appearance="outline">
+            <mat-label class="label-style">Registration Type</mat-label>
+            <mat-select formControlName="registrationTypeId" (selectionChange)="refreshFormOnValueChange()">
+              @for (option of registrationTypes; track registrationTypes) {
+                <mat-option [value]="option.registrationTypeId">{{option.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="dense-1">
+              <mat-form-field  class="example-full-width" appearance="outline">
+                <mat-label class="label-style">Min Price</mat-label>
+                <mat-select formControlName="minPrice" (selectionChange)="refreshFormOnValueChange()">
+                  @for (option of prices; track prices) {
+                    <mat-option [value]="option">{{option | currency}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="dense-1">
+              <mat-form-field  class="example-full-width" appearance="outline">
+                <mat-label class="label-style">Max Price</mat-label>
+                <mat-select formControlName="maxPrice" (selectionChange)="refreshFormOnValueChange()">
+                  @for (option of prices; track prices) {
+                    <mat-option [value]="option" >{{option | currency}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </div>
+
+        
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="dense-1">
+              <mat-form-field  class="example-full-width" appearance="outline">
+                <mat-label class="label-style">Beds</mat-label>
+                <mat-select formControlName="beds" (selectionChange)="refreshFormOnValueChange()">
+                  @for (option of numberDataSource; track numberDataSource) {
+                    <mat-option [value]="option.id">{{option.display}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="dense-1">
+              <mat-form-field  class="example-full-width" appearance="outline">
+                <mat-label class="label-style">Baths</mat-label>
+                <mat-select formControlName="baths" (selectionChange)="refreshFormOnValueChange()">
+                  @for (option of numberDataSource; track numberDataSource) {
+                    <mat-option [value]="option.id">{{option.display}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </div>
+        
+        <div class="row">
+          <div class="col-sm">  <button mat-flat-button color="warn" (click)="generateForm()">Clear </button> <span></span></div>
+          <div class="col-sm"><button mat-flat-button color="primary" type="submit" matStepperNext [disabled]="!myForm.valid">Apply</button></div>
+        </div>
+      
+        
+              
+      </form>
+    </div>
+
+  </mat-card-content>
+
+  <!-- <mat-card-actions>
+    
+  </mat-card-actions> -->
+
+</mat-card>
+

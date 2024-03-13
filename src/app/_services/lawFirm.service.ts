@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
+import { LawFirm } from "../_models/lawFirm";
 
 
 @Injectable({
@@ -14,5 +15,13 @@ import { BaseService } from "./base.service";
     
     getAllLawFirms(){
         return this.http.get<any>(`${this.baseService.baseUrl}LawFirm/`);
+    }
+
+    createLawFirm(lawFirm: LawFirm){
+      return this.http.post<any>(`${this.baseService.baseUrl}LawFirm/`, lawFirm);
+    }
+
+    updateLawFirm(lawFirm: LawFirm){
+      return this.http.put<any>(`${this.baseService.baseUrl}LawFirm/`, lawFirm);
     }
   }

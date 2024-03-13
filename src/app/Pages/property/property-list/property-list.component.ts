@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PropertyDetailComponent } from '../property-detail/property-detail.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -9,11 +9,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Property } from '../../../_models/property';
 import { PropertyService } from '../../../_services/property.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { SearchBarComponent } from '../../../shared/search-bar/search-bar.component';
+import { FilterComponent } from '../../../shared/filter/filter.component';
+import { SearchFilter } from '../../../_models/searchFilter';
+import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
+import { startWith, switchMap } from 'rxjs/operators';
+import { merge, of } from 'rxjs';
+
 
 
 @Component({
@@ -23,6 +31,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
   standalone: true,
   imports:[CommonModule,
      PropertyDetailComponent,
+     SearchBarComponent,
      CommonModule,
      MatCardModule,
      MatButtonModule,
@@ -33,11 +42,23 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
      MatListModule,
      MatIconModule,
      MatPaginatorModule,
-     NgxSpinnerModule]
+     MatToolbarModule,
+     NgxSpinnerModule,
+    FilterComponent]
 })
 export class PropertyListComponent implements OnInit {
 
-  propertyDatasource : Property[] = []
+  propertyDatasource : Property[] = [];
+  locations: string[] = [];
+  searchFilter: SearchFilter = DefaultSearchFilter.getDefaultSearchFilter();
+
+  @ViewChild(SearchBarComponent) searchBarComponent!: SearchBarComponent;
+
+  dataSize : number = 0
+  currentPage: number = 0;
+  pageSize: number = 3;
+
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   constructor(private propertyService: PropertyService,
     private router: Router,
@@ -45,14 +66,16 @@ export class PropertyListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProperties();
-
+    this.linkListToPaginator();
   }
 
   getAllProperties(){
     this.spinner.show(); 
-    this.propertyService.getAllProperties().subscribe({
+    this.propertyService.getFilteredProperties(this.searchFilter).subscribe({
       next: response => {
         this.propertyDatasource = response;
+        this.dataSize =  this.propertyDatasource.length;
+        this.linkListToPaginator();
         this.spinner.hide();
       }
     })
@@ -61,4 +84,48 @@ export class PropertyListComponent implements OnInit {
   navigateToDetails(id: number){
     this.router.navigate(['/property-detail', id])
   }
+
+  refreshFilteredProperties(){
+    this.spinner.show();
+    this.searchFilter.searchTerms = this.locations;
+    this.propertyService.getFilteredProperties(this.searchFilter).subscribe({
+      next: response => {
+        this.propertyDatasource = response;
+        this.dataSize =  this.propertyDatasource.length;
+        this.linkListToPaginator();
+        this.spinner.hide();
+      },
+      error: error =>{
+        this.propertyDatasource = [];
+        this.spinner.hide();
+      } 
+    })
+  }
+
+  refreshSearchFilter(data :any){
+    this.searchFilter = data;
+  }
+
+  refreshLocations(data: any){
+   this.locations  = data ? data : []; 
+  }
+
+  handlePageChange(e:any){
+    this.refreshFilteredProperties();
+
+  }
+
+  linkListToPaginator() {
+    merge(this.paginator.page).pipe(
+      startWith({}),
+      switchMap(() => {
+        return of(this.propertyDatasource);
+      })
+    ).subscribe(res => {
+      const from = this.paginator.pageIndex * this.pageSize;
+      const to = from + this.pageSize;
+      this.propertyDatasource = res.slice(from, to);
+    });
+  }
+
 }

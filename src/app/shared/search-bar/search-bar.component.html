@@ -1,6 +1,40 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Search">
-  </mat-form-field>
-  <button mat-button type="button" class="example-button" (click)="search()">Search</button>
+<form>
+  <div class="row">
+    <div class="dense-1 col col-lg-10">
+      <mat-form-field class="example-chip-list" appearance="outline">
+        <mat-chip-grid #chipGrid aria-label="city or suburb selection">
+          @for (location of locations; track location) {
+            <mat-chip-row (removed)="remove(location)">
+              {{location}}
+              <button matChipRemove [attr.aria-label]="'remove ' + location">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+    
+            <input 
+              placeholder="City Or Suburb..." 
+              #locationInput 
+              [formControl]="locationCtrl"
+              [matChipInputFor]="chipGrid" 
+              [matAutocomplete]="auto"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"/>
+        </mat-chip-grid>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          @for (location of filteredLocations| async; track location) {
+            <mat-option [value]="location">{{location}}</mat-option>
+          }
+        </mat-autocomplete>
+  
+      </mat-form-field>
+    </div>
+  
+    <div class="col-sm">
+      <button mat-flat-button color="primary" (click)="searchRecords()" class="search-button">Search</button>
+    </div>
+  </div>
 </form>
+
+

@@ -15,4 +15,9 @@ import { BaseService } from "./base.service";
     getAllPropertyTypes(){
         return this.http.get<any>(`${this.baseService.baseUrl}PropertyType/`);
     }
+
+        
+    getAllRegistrationTypes(){
+      return this.http.get<any>(`${this.baseService.baseUrl}PropertyType/RegistrationTypes`);
+  }
   }

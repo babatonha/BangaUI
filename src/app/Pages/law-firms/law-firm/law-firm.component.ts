@@ -1,26 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Property } from '../../../_models/property';
-import { PropertyService } from '../../../_services/property.service';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SearchFilter } from '../../../_models/searchFilter';
-import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { LawFirm } from '../../../_models/lawFirm';
+import { LawFirmService } from '../../../_services/lawFirm.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-my-properties',
-  templateUrl: './my-properties.component.html',
-  styleUrls: ['./my-properties.component.scss'],
+  selector: 'app-law-firm',
+  templateUrl: './law-firm.component.html',
+  styleUrls: ['./law-firm.component.scss'],
   standalone: true,
-  imports: [
+  imports:[
     CommonModule,
     MatFormFieldModule, 
     MatInputModule, 
@@ -32,23 +30,22 @@ import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
     MatIconModule,
     MatTooltipModule
   ]
-
 })
-export class MyPropertiesComponent implements OnInit {
-  displayedColumns: string[] = ['price', 'cityName','actions'];
-  dataSource!: MatTableDataSource<Property>;
+export class LawFirmComponent implements OnInit {
 
-  searchFilter: SearchFilter = DefaultSearchFilter.getDefaultSearchFilter();
+  displayedColumns: string[] = ['lawFirmName', 'address','actions'];
+  dataSource!: MatTableDataSource<LawFirm>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private propertyService: PropertyService,
-    private router: Router,
+  constructor(private router: Router,
+    private lawFirmService: LawFirmService,
     private spinner: NgxSpinnerService) {}
 
+
   ngOnInit() {
-   this.getAllProperties();
+    this.getAll();
   }
 
   ngAfterViewInit() {
@@ -57,17 +54,12 @@ export class MyPropertiesComponent implements OnInit {
   }
 
   createNew(){
-    this.router.navigate(['/property-new']);
+    this.router.navigate(['/law-firm-new']);
   }
 
-  updateProperty(propertyId: number){
-    console.log(propertyId);
-    this.router.navigate(['/property-new']);
-  }
-
-  getAllProperties(){
+  getAll(){
     this.spinner.show(); 
-    this.propertyService.getFilteredProperties(this.searchFilter).subscribe({
+    this.lawFirmService.getAllLawFirms().subscribe({
       next: response => {
         this.dataSource = new MatTableDataSource(response);
         this.spinner.hide();
@@ -75,6 +67,10 @@ export class MyPropertiesComponent implements OnInit {
     })
   }
 
+  update(propertyId: number){
+    console.log(propertyId);
+    this.router.navigate(['/law-firm-new']);
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

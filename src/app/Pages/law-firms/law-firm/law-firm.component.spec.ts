@@ -1,22 +1,23 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
+import { LawFirmComponent } from './law-firm.component';
 
-import { MyPropertiesComponent } from './my-properties.component';
-
-describe('MyPropertiesComponent', () => {
-  let component: MyPropertiesComponent;
-  let fixture: ComponentFixture<MyPropertiesComponent>;
+describe('LawFirmComponent', () => {
+  let component: LawFirmComponent;
+  let fixture: ComponentFixture<LawFirmComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyPropertiesComponent ]
+      declarations: [ LawFirmComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyPropertiesComponent);
+    fixture = TestBed.createComponent(LawFirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

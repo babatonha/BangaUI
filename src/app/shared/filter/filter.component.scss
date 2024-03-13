@@ -1,0 +1,37 @@
+.link-filters:hover{
+    cursor: pointer;
+}
+
+.link-filters{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+button{
+    width: 100%;
+}
+
+.example-card {
+    max-width: 100%;
+    margin: 8px;
+  }
+
+  .example-full-width {
+    margin-top: 11px;
+    width: 100%;
+  }
+
+  mat-option{
+    font-size: 11px;
+  }
+
+  .label-style{
+    font-size: 11px;
+  }
+  .mat-option{
+    font-size: 11px;
+  }
+  
+  .mat-mdc-select{
+    font-size: 11px;
+  }

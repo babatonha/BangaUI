@@ -1,0 +1,78 @@
+
+<mat-card class="example-card">
+ 
+  <mat-card-content>
+    
+      <div class="row" >
+        <div class="col-sm">
+            <div class="logo-image-container">
+              <img class="logo-image" src="http://res.cloudinary.com/ds5ylbmru/image/upload/v1709907118/Property-Docs/zabtsp7g1zuka3nzfnib.png" alt="Logo">
+              <br>  
+              <button class="logo-button" mat-raised-button color="primary" (click)="changeProfilePicture()">Change Logo</button>
+            </div>
+        </div>
+
+        <div class="col col-lg-9">
+
+          <h2>Lawfirm Details</h2>
+          <mat-divider></mat-divider>
+
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+              <app-text-input
+                type="text"
+                [formControl]="$any(myForm.controls['lawFirmName'])"
+                [label]="'Name'">
+              </app-text-input>
+  
+              <app-text-input
+                type="text"
+                [formControl]="$any(myForm.controls['description'])"
+                [label]="'Description'">
+              </app-text-input>
+
+              <div class="dense-1">
+                <mat-form-field  class="example-full-width" appearance="outline">
+                  <mat-label class="label-style">Representative</mat-label>
+                  <mat-select formControlName="representativeUserId">
+                    @for (option of users; track users) {
+                      <mat-option [value]="option.id">{{option.firstName}} {{option.lastName}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <app-text-input
+                type="text"
+                [formControl]="$any(myForm.controls['address'])"
+                [label]="'Address'">
+              </app-text-input>
+  
+              <div class="dense-1">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label class="label-style">City</mat-label>
+                  <mat-select formControlName="cityID">
+                    @for (option of cities; track cities) {
+                      <mat-option [value]="option.cityId">{{option.name}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+      
+            <button mat-flat-button color="primary" type="submit" matStepperNext [disabled]="!myForm.valid">Save Changes</button>
+                  
+          </form>
+        </div>
+      </div>
+
+
+  </mat-card-content>
+
+  
+
+</mat-card>
+
+
+
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

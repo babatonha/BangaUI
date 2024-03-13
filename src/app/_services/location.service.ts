@@ -13,6 +13,10 @@ import { BaseService } from "./base.service";
 
     
     getAllCitites(){
-        return this.http.get<any>(`${this.baseService.baseUrl}PropertyLocation/`);
+        return this.http.get<any>(`${this.baseService.baseUrl}PropertyLocation/Cities`);
+    }
+
+    getAllCitySuburbs(){
+      return this.http.get<any>(`${this.baseService.baseUrl}PropertyLocation/CitySuburbs`);
     }
   }

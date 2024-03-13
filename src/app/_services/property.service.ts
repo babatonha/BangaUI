@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { Property } from "../_models/property";
+import { SearchFilter } from "../_models/searchFilter";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +13,8 @@ import { Property } from "../_models/property";
         private http: HttpClient) { }
 
     
-    getAllProperties(){
-        return this.http.get<any>(`${this.baseService.baseUrl}Property/`);
+    getFilteredProperties(filter: SearchFilter){
+        return this.http.post<any>(`${this.baseService.baseUrl}Property/FilteredSearch`, filter);
     }
 
     getPropertyById(propertyId: number){

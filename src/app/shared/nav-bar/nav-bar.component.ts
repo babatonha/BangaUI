@@ -80,7 +80,7 @@ export class NavBarComponent implements OnInit {
         }
       },
       error: error =>{
-        console.log(error);
+       // console.log(error);
       }
     })
   }

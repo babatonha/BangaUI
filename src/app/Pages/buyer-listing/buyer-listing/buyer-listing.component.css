@@ -1,0 +1,12 @@
+.custom-card {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1:hover{
+    cursor: pointer;
+  }
+  
+  

@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get('https://localhost:7079/api/users').subscribe({
+    this.http.get('https://localhost:7079/api/user').subscribe({
       next: (response) => {
         this.users = response;
       },
