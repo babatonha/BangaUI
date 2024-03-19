@@ -15,5 +15,7 @@ export const routes: Routes = [
     {path: 'law-firm', loadComponent: () => import('./Pages/law-firms/law-firm/law-firm.component').then(mod => mod.LawFirmComponent)},
     {path: 'law-firm-new', loadComponent: () => import('./Pages/law-firms/lawfirm-new/lawfirm-new.component').then(mod => mod.LawfirmNewComponent)},
     {path: 'buyer-listing', loadComponent: () => import('./Pages/buyer-listing/buyer-listing/buyer-listing.component').then(mod => mod.BuyerListingComponent)},
-    {path: 'buyer-listing-new', loadComponent: () => import('./Pages/buyer-listing/buyer-listing-new/buyer-listing-new.component').then(mod => mod.BuyerListingNewComponent)}
+    {path: 'buyer-listing-new', loadComponent: () => import('./Pages/buyer-listing/buyer-listing-new/buyer-listing-new.component').then(mod => mod.BuyerListingNewComponent)},
+    {path: 'user-profile', loadComponent: () => import('./Pages/profile/user-profile/user-profile.component').then(mod => mod.UserProfileComponent)},
+    {path: 'messages/:id', loadComponent: () => import('./Pages/profile/message-thread/message-thread.component').then(mod => mod.MessageThreadComponent)},
 ];

@@ -1,0 +1,47 @@
+<mat-card class="custom-card">
+  <br>
+  <mat-card-title class="centered-title">{{username}}</mat-card-title>
+  <br>
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <mat-list>
+      @for (message of messages; track message) {
+        <mat-card class="custom-card">
+          <mat-card-content>
+            {{message.content}} 
+            <br>
+            <span class="message-date">{{message.messageSent | date :"dd/MM/yyyy HH:mm"}}</span>
+          </mat-card-content>
+        </mat-card>
+
+      }
+    </mat-list>
+
+  </mat-card-content>
+
+  <mat-card-footer>
+    <form [formGroup]="myForm">
+      <div class="container">
+        <div class="example-send-container " >
+          <div class="text-box">
+            <app-text-input
+              type="text"
+              [formControl]="$any(myForm.controls['message'])"
+              [label]="'Enter message ...'">
+            </app-text-input>
+          </div>
+
+          <div class="send-button">
+            <button mat-fab color="primary" (click)="sendMessage()">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>  
+    </form>
+  </mat-card-footer>
+</mat-card>
+
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

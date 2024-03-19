@@ -36,7 +36,7 @@
 
       <button mat-flat-button  *ngIf="loggedInUser" [matMenuTriggerFor]="menulogin">Hi {{loggedInUser.userName}}</button>
       <mat-menu #menulogin="matMenu">
-        <button routerLink="/home"  mat-menu-item>Profile</button>
+        <button routerLink="/user-profile"  mat-menu-item>Profile</button>
         <button (click)="logout()" mat-menu-item>Logout</button>
       </mat-menu>
 
