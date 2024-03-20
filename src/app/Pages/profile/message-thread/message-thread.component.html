@@ -1,20 +1,32 @@
+
+
 <mat-card class="custom-card">
   <br>
-  <mat-card-title class="centered-title">{{username}}</mat-card-title>
+  <mat-card-title class="centered-title">
+    {{username}}
+    <br>
+    <span [class.is-online]="(presenceService.onlineUsers$ | async)?.includes(username!)">
+      Online
+    </span>
+  </mat-card-title>
   <br>
   <mat-divider></mat-divider>
 
-  <mat-card-content>
-    <mat-list>
+  <mat-card-content class="fixed-height-card">
+    <mat-list >
       @for (message of messages; track message) {
-        <mat-card class="custom-card">
+        <mat-card class="custom-card" [ngClass]="{'align-right': username === message.recipientUsername, 'align-left': username !== message.recipientUsername}">
           <mat-card-content>
-            {{message.content}} 
-            <br>
-            <span class="message-date">{{message.messageSent | date :"dd/MM/yyyy HH:mm"}}</span>
+            <div> 
+              <div class="message-content">{{message.content}}</div>
+              <mat-icon (click)="openDeleteDialog(message.id)">delete</mat-icon>              
+            </div>
+            <div class="message-date">
+              {{message.messageSent | date :"dd/MM/yyyy HH:mm"}}
+            </div>
           </mat-card-content>
         </mat-card>
-
+       
       }
     </mat-list>
 
@@ -23,7 +35,7 @@
   <mat-card-footer>
     <form [formGroup]="myForm">
       <div class="container">
-        <div class="example-send-container " >
+        <div class="example-send-container" >
           <div class="text-box">
             <app-text-input
               type="text"

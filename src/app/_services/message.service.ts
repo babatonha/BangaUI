@@ -28,4 +28,8 @@ import { Message } from "../_models/message";
         return this.http.post<Message>(`${this.baseService.baseUrl}Messages`, {recipientUsername: username, content})
     }
 
+    deleteMessage(messageId: number){
+        return this.http.delete(`${this.baseService.baseUrl}Messages/${messageId}`)
+    }
+
 }

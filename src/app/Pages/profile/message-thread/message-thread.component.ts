@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -13,6 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { PresenceService } from '../../../_services/presence.service';
 
 @Component({
   selector: 'app-message-thread',
@@ -30,7 +33,8 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ConfirmDialogComponent
   ]
 })
 export class MessageThreadComponent implements OnInit {
@@ -42,8 +46,10 @@ export class MessageThreadComponent implements OnInit {
 
   constructor(private messageService: MessageService,
     private fb: FormBuilder,
+    public dialog: MatDialog,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
+    public presenceService: PresenceService,
     private route: ActivatedRoute, ) { }
 
   ngOnInit() {
@@ -57,7 +63,35 @@ export class MessageThreadComponent implements OnInit {
   }
 
 
+  deleteMessage(messageId: number){
+    this.messageService.deleteMessage(messageId).subscribe({
+      next: () =>{
+        this.messages.splice(this.messages.findIndex(m => m.id === messageId), 1);
+      }
+    })
+  }
 
+  openDeleteDialog(id: number) { 
+   const dialogRef =  this.dialog.open(ConfirmDialogComponent, 
+      {
+        data: {
+          title : "Delete Message",
+          content: "Are you sure you want to delete this message?"
+        }
+      });
+
+      dialogRef.componentInstance.onConfirm.subscribe(() => {
+        this.spinner.show();
+        this.messageService.deleteMessage(id).subscribe({
+          next: () =>{
+            this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+            dialogRef.close(true);
+            this.spinner.hide();
+            this.toastr.success("Succesfully deleted")
+          }
+        })
+      });
+  }
 
   generateForm(){
     this.myForm = this.fb.group({

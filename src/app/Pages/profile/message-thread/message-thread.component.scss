@@ -34,5 +34,40 @@
     font-size: 8px;
     
   }
+
+  .fixed-height-card {
+    height: 70vh; 
+    overflow: auto; 
+  }
   
   
+/* Hide the default scrollbar */
+.fixed-height-card::-webkit-scrollbar {
+  display: none;
+}
+
+
+@keyframes fa-blink {
+  0% {opacity: 1;}
+  100% {opacity: 0.4;}
+}
+
+.is-online{
+  animation: fa-blink 1.5s linear infinite;
+  color: rgb(1, 189, 43);
+  font-size: 10px;
+}
+
+.align-right{
+  float: right;
+  border: 1px solid  #8BAA7D; 
+  border-radius: 8px; 
+  width: 90%;
+}
+
+.align-left{
+  float: left;
+  max-width: 90%;
+  border: 1px solid  #DDDDDD; 
+  border-radius: 8px; 
+}
