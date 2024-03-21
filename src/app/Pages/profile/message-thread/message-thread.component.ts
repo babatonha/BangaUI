@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import {MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Message } from '../../../_models/message';
 import { MessageService } from '../../../_services/message.service';
@@ -16,6 +16,8 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { PresenceService } from '../../../_services/presence.service';
+import { AccountService } from '../../../_services/account.service';
+import { User } from '../../../_models/user';
 
 @Component({
   selector: 'app-message-thread',
@@ -37,12 +39,14 @@ import { PresenceService } from '../../../_services/presence.service';
     ConfirmDialogComponent
   ]
 })
-export class MessageThreadComponent implements OnInit {
+export class MessageThreadComponent implements OnInit, OnDestroy {
 
   @Input() messages: Message[] = [];
   @Input() username?: string;
   myForm!: FormGroup;
   messageContent:string | undefined;
+  user?: User;
+
 
   constructor(private messageService: MessageService,
     private fb: FormBuilder,
@@ -50,10 +54,18 @@ export class MessageThreadComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     public presenceService: PresenceService,
-    private route: ActivatedRoute, ) { }
+    private route: ActivatedRoute, 
+    private accountService: AccountService) { 
+      this.accountService.currentUser$.subscribe({
+        next: user => {
+          if(user){
+            this.user = user;
+          }
+        }
+      })
+    }
 
   ngOnInit() {
-
     this.route.params.subscribe((params: any) => {
       this.username = params['id'];
       this.getMessageThread();
@@ -62,6 +74,7 @@ export class MessageThreadComponent implements OnInit {
     this.generateForm();
   }
 
+  
 
   deleteMessage(messageId: number){
     this.messageService.deleteMessage(messageId).subscribe({
@@ -103,13 +116,10 @@ export class MessageThreadComponent implements OnInit {
     this.spinner.show();
     this.messageContent = this.myForm.value.message;
     if(this.username && this.messageContent){
-      this.messageService.sendMessage(this.username, this.messageContent).subscribe({
-        next: response => {
-          this.getMessageThread();
-           this.toastr.success("Message sent");
-           this.generateForm();
-           this.spinner.hide();
-        }
+      this.messageService.sendMessage(this.username, this.messageContent).then( () => {
+        this.toastr.success("Message sent");
+        this.generateForm();
+        this.spinner.hide();
       })
     }else{
         this.toastr.info("Please enter message");
@@ -117,14 +127,19 @@ export class MessageThreadComponent implements OnInit {
   }
 
   getMessageThread(){
-    if(this.username){
-      this.messageService.getMessageThread(this.username).subscribe({
-        next: response => {
-          this.messages = response;
+    if(this.user && this.username){
+      this.messageService.createHubConnection(this.user, this.username);
+      this.messageService.messageThread$.subscribe({
+        next: messages => {
+          this.messages = messages;
         }
       })
-    }
+    } 
   }
 
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
+    //this.presenceService.stopHubConnection();
+  }
 
 }

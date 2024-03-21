@@ -13,7 +13,7 @@
   <mat-divider></mat-divider>
 
   <mat-card-content class="fixed-height-card">
-    <mat-list >
+    <mat-list>
       @for (message of messages; track message) {
         <mat-card class="custom-card" [ngClass]="{'align-right': username === message.recipientUsername, 'align-left': username !== message.recipientUsername}">
           <mat-card-content>
@@ -28,6 +28,7 @@
         </mat-card>
        
       }
+      <div id="bottomOfList"></div>
     </mat-list>
 
   </mat-card-content>
