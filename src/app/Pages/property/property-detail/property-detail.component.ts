@@ -18,10 +18,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AccountService } from '../../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { OfferService } from '../../../_services/offer.service';
-import { error } from 'console';
 import { Offer } from '../../../_models/offer';
 import { OfferListComponent } from '../../offers/offer-list/offer-list.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { LikesService } from '../../../_services/likes.service';
+import { Likes } from '../../../_models/likes';
+import { DefaultLike } from '../../../_static/likesDefaultData';
 
 @Component({
   selector: 'app-property-detail',
@@ -49,17 +51,21 @@ export class PropertyDetailComponent implements OnInit {
 
   currentUserId!:  number;
   propertyOffers: Offer[] = [] ;
-
   matTablePropertyOffers: any;
+
+  userLike: Likes; 
 
   constructor(  private route: ActivatedRoute, 
     private propertyService: PropertyService,
     public dialog: MatDialog,
     private toastr: ToastrService,
+    private likesService: LikesService,
     private accountService: AccountService,
     private spinner: NgxSpinnerService,
     private offerService: OfferService
-    ) { }
+    ) { 
+      this.userLike = DefaultLike.getDefaultLike();
+    }
 
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
@@ -69,6 +75,8 @@ export class PropertyDetailComponent implements OnInit {
 
     this.getCurrentUser();
     this.getPropertyOffers();
+
+    this.getUserLikeStatus();
   }
 
   getCurrentUser(){
@@ -80,6 +88,35 @@ export class PropertyDetailComponent implements OnInit {
       },
       error: error =>{}
     })
+  }
+
+  getUserLikeStatus(){
+    this.likesService.getUserLikes(this.propertyId, this.currentUserId).subscribe({
+      next: response => {
+        if(response){
+          this.userLike = response;
+        }else{
+          this.userLike.propertyId = this.propertyId;
+          this.userLike.userId = this.currentUserId;
+        } 
+      }
+    })
+  }
+
+  onLikeClick(){
+    this.spinner.show();
+    this.userLike.isLiked = !this.userLike.isLiked;
+
+    var text = this.userLike.isLiked ? "Successfully Liked" : "Successfully Unliked";
+    
+    this.likesService.createLike(this.userLike).subscribe({
+      next: response => {
+        if(response > 0){
+          this.toastr.success(text);
+        }
+        this.spinner.hide();
+      }
+    });
   }
 
   getPropertyDetails(){

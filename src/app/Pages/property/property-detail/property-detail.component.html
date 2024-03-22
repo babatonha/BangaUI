@@ -61,6 +61,11 @@
             Good zesa, Municipal water, veranda, walled.
           </div>
 
+          <div>
+            <h1>Numner Of Likes</h1>
+            ({{propertyDetails?.property?.numberOfLikes}})
+          </div>
+
       </div>
     </div>
 
@@ -68,15 +73,10 @@
     <app-offer-list [dataSource]="matTablePropertyOffers"></app-offer-list>
 
 
-
-
-
-
-
   </mat-card-content>
   <mat-card-actions>
     <button mat-flat-button color="primary">Make An Offer</button>
     <button mat-flat-button color="primary">Contact Owner</button>
-    <button mat-flat-button color="primary">Like  ({{propertyDetails?.property?.numberOfLikes}})</button>
+    <button mat-flat-button color="primary" (click)="onLikeClick()"> {{userLike.isLiked ? 'UnLike' :'Like'}}  </button>
   </mat-card-actions>
 </mat-card>
