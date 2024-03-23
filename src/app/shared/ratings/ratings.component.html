@@ -1,0 +1,10 @@
+<div class="rating" >
+  @for (item of stars; track item) {
+    <mat-icon
+      class="star"
+      (mouseover)="fillStars(item)"
+      (click)="rateStar(item)"
+      [ngClass]="{'filled': item <= selectedStar}"
+    >star</mat-icon>
+  }
+</div>

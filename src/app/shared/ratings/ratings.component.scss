@@ -1,0 +1,16 @@
+.rating {
+    display: inline-block;
+  }
+  
+  .star {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .star:hover {
+    color: orange;
+  }
+  
+  .star.filled {
+    color: orange;
+  }

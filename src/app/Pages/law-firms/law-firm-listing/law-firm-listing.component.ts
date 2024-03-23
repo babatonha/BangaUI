@@ -9,13 +9,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { BuyerListing } from '../../../_models/buyerListing';
-import { BuyerListingService } from '../../../_services/buyerListing.service';
+import { LawFirm } from '../../../_models/lawFirm';
+import { LawFirmService } from '../../../_services/lawFirm.service';
+import { Router } from '@angular/router';
+import { RatingsComponent } from '../../../shared/ratings/ratings.component';
 
 @Component({
-  selector: 'app-buyer-listing',
-  templateUrl: './buyer-listing.component.html',
-  styleUrls: ['./buyer-listing.component.scss'],
+  selector: 'app-law-firm-listing',
+  templateUrl: './law-firm-listing.component.html',
+  styleUrls: ['./law-firm-listing.component.scss'],
   standalone: true,
   imports:[
     CommonModule,
@@ -27,27 +29,36 @@ import { BuyerListingService } from '../../../_services/buyerListing.service';
     MatListModule,
     MatIconModule,
     MatPaginatorModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    RatingsComponent
   ]
 })
-export class BuyerListingComponent implements OnInit {
+export class LawFirmListingComponent implements OnInit {
 
-  datasource: BuyerListing[] = [];
-  constructor(private buyerListService: BuyerListingService,
+  datasource: LawFirm[] =  [];
+
+  constructor(  private lawFirmService: LawFirmService,
+    private router: Router,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.getAll();
+    this.getAllLawfirms();
   }
 
-  getAll(){
+  getAllLawfirms(){
     this.spinner.show(); 
-    this.buyerListService.getAllBuyerListings().subscribe({
+    this.lawFirmService.getAllLawFirms().subscribe({
       next: response => {
         this.datasource = response;
+        this.lawFirmService.setLawFirmData(this.datasource);
         this.spinner.hide();
       }
     })
   }
+
+  onItemClick(id: number){
+    this.router.navigate(['/law-firm-detail', id]);
+  }
+
 
 }

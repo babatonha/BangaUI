@@ -6,4 +6,6 @@ export interface LawFirm{
     representativeUserId : number;
     address : string;
     cityID : number;
+    isDisabled: boolean;
+    totalRating: number;
 }

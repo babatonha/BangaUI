@@ -68,7 +68,6 @@ export class LawFirmComponent implements OnInit {
   }
 
   update(propertyId: number){
-    console.log(propertyId);
     this.router.navigate(['/law-firm-new']);
   }
 

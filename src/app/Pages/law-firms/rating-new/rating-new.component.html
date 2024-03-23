@@ -1,0 +1,41 @@
+
+<h2 mat-dialog-title>Rate</h2>
+<mat-dialog-content class="mat-typography">
+
+      <form class="example-form" [formGroup]="myForm">
+
+        <div class="dense-1">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Rating (1-5)</mat-label>
+            <mat-select formControlName="rating">
+              <mat-option *ngFor="let rating of ratingNumnbers" [value]="rating">{{ rating }}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rating (1-5)</mat-label>
+            <mat-select formControlName="rating" name="food">
+              @for (rating of ratingNumnbers; track rating) {
+                <mat-option [value]="rating">{{rating}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+        <div class="dense-1">
+          <mat-form-field appearance="outline">
+            <mat-label>Review</mat-label>
+            <textarea matInput formControlName="review" ></textarea>
+          </mat-form-field>
+       
+        </div>
+      </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button cdkFocusInitial mat-flat-button color="primary" [disabled]="!myForm.valid" (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>
