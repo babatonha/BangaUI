@@ -39,7 +39,7 @@ import { ToastrService } from "ngx-toastr";
           }
           break;
         case 401: 
-          toastr.error("Unauthorized");
+          error.url?.includes('/login') ? toastr.warning("Wrong username or password") : toastr.error("Unauthorized");
           router.navigate(['/login']);
           break;
         case 404: 

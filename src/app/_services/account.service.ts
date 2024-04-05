@@ -6,6 +6,7 @@ import { Login } from '../_models/login';
 import { User } from '../_models/user';
 import { BehaviorSubject, map } from 'rxjs';
 import { PresenceService } from './presence.service';
+import { changePassword } from '../_models/changePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,16 @@ constructor(private baseService: BaseService,
       })
     )
   }
+
+  forgotPassword(email: string){
+    return this.http.get<any>(`${this.baseService.baseUrl}account/forgotPassword/${email}`);
+  }
+
+  changePassword(model: changePassword){
+    return this.http.post<any>(`${this.baseService.baseUrl}account/changePassword`,model);  
+  }
+
+
   setCurrentUser(user: User){
     // user.roles = [];
     // const roles = this.getDecodedToken(user.token).role;

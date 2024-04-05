@@ -1,0 +1,13 @@
+.page{
+    margin-top: 1rem;
+}
+
+.filter{
+    width: 100%;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 1px; /* Adjust gap as needed */
+  }

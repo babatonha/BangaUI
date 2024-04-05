@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { Property } from "../_models/property";
 import { SearchFilter } from "../_models/searchFilter";
+import { ManagePropertyModel } from "../_models/manageProperty";
 
 @Injectable({
     providedIn: 'root'
@@ -23,5 +24,9 @@ import { SearchFilter } from "../_models/searchFilter";
     
     createProperty(property: Property){
       return this.http.post<any>(`${this.baseService.baseUrl}Property`, property);
+    }
+
+    manageProperty(property: ManagePropertyModel){
+      return this.http.put<any>(`${this.baseService.baseUrl}Property/Manage`, property);
     }
   }

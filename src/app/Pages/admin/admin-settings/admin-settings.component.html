@@ -1,3 +1,22 @@
-<p>
-  admin-settings works!
-</p>
+<mat-tab-group [tabIndex]="tabIndex">
+  <mat-tab>
+      <ng-template mat-tab-label>Users</ng-template>
+      <app-user-manager></app-user-manager>
+  </mat-tab>
+
+  <mat-tab>
+      <ng-template mat-tab-label >Properties</ng-template> 
+      <app-property-manager></app-property-manager>   
+  </mat-tab>
+
+  <mat-tab>
+      <ng-template mat-tab-label >Buyers</ng-template>
+      <app-buyer-manager></app-buyer-manager>    
+  </mat-tab>
+
+  <mat-tab>
+      <ng-template mat-tab-label >Law Firms</ng-template>
+      <app-law-firm></app-law-firm>    
+  </mat-tab>
+
+</mat-tab-group>

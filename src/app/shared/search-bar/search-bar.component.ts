@@ -42,7 +42,6 @@ import { Property } from '../../_models/property';
 
 
 export class SearchBarComponent implements OnInit {
-
   separatorKeysCodes: number[] = [ENTER, COMMA];
   locationCtrl = new FormControl('');
   filteredLocations!: Observable<string[]>;

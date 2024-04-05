@@ -15,10 +15,11 @@ import { PropertyType } from '../../_models/propertyType';
 import { RegistrationType } from '../../_models/registrationType';
 import { PropertyTypeService } from '../../_services/propertyType.service';
 import { MatSelectModule } from '@angular/material/select';
-import { DefaultSearchFilter } from '../../_static/searchFilterDefaultData';
 import { SearchFilter } from '../../_models/searchFilter';
-import { PropertyService } from '../../_services/property.service';
 import { Property } from '../../_models/property';
+import { Router } from '@angular/router';
+import { AccountService } from '../../_services/account.service';
+import { User } from '../../_models/user';
 
 @Component({
   selector: 'app-filter',
@@ -54,14 +55,41 @@ export class FilterComponent implements OnInit {
   @Output() triggerUpdateSearchFilter: EventEmitter<SearchFilter> = new EventEmitter<SearchFilter>();
   @Output() triggerUpdatePropertyList: EventEmitter<Property[]> = new EventEmitter<Property[]>();
 
+  isApplyFilters: boolean = false;
+  loggedInUser: User | undefined;
+
 
   constructor(private fb: FormBuilder,
+    private router: Router,
+    private accountService: AccountService,
     private propertyTypeSrvice: PropertyTypeService,) { }
 
   ngOnInit() {
     this.getPropertyTypes();
     this.getRegistrationTypes();
     this.generateForm();
+    this.hideFilters();
+    this.getCurrentUser();
+  }
+
+  getCurrentUser(){
+    this.accountService.currentUser$.subscribe({
+      next: user => {
+        if(user){
+          this.loggedInUser = user;
+        }
+      },
+      error: error =>{
+       // console.log(error);
+      }
+    })
+  }
+
+
+  hideFilters(){
+    var x: any = document.getElementById("filters");
+    x.style.display = "none";
+    this.isApplyFilters = false;
   }
 
   generateForm(){
@@ -106,9 +134,15 @@ export class FilterComponent implements OnInit {
     var x: any = document.getElementById("filters");
     if (x.style.display === "none") {
       x.style.display = "block";
+      this.isApplyFilters = true;
     } else {
       x.style.display = "none";
+      this.isApplyFilters = false;
     }
+  }
+
+  createNewProperty(){
+    this.router.navigate(['/property-new']);
   }
 
 }

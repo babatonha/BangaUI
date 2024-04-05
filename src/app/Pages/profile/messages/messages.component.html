@@ -1,4 +1,4 @@
-
+<!-- 
 <mat-tab-group [tabIndex]="tabIndex" (selectedTabChange)="tabSelectionChanged($event)">
   <mat-tab>
     <ng-template mat-tab-label> <mat-icon class="example-tab-icon">inbox</mat-icon> Inbox </ng-template>
@@ -11,8 +11,7 @@
               <br>
               {{message.messageSent | date}}
             </mat-card-content>
-          </mat-card>
-          
+          </mat-card>   
         }
       </mat-list>
       
@@ -49,7 +48,20 @@
     </mat-list>
 
   </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
+
+<mat-list>
+  @for (message of messages; track message) {
+    <mat-card class="custom-card" (click)="messageClicked(message)">
+      <mat-card-content>
+
+        {{message.senderUsername}}
+        <br>
+        {{message.messageSent | date}}
+      </mat-card-content>
+    </mat-card>   
+  }
+</mat-list>
 
 
 

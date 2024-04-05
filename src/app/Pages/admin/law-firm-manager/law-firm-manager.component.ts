@@ -12,11 +12,13 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { LawFirm } from '../../../_models/lawFirm';
 import { LawFirmService } from '../../../_services/lawFirm.service';
 import { Router } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { merge, of, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-law-firm',
-  templateUrl: './law-firm.component.html',
-  styleUrls: ['./law-firm.component.scss'],
+  templateUrl: './law-firm-manager.component.html',
+  styleUrls: ['./law-firm-manager.component.scss'],
   standalone: true,
   imports:[
     CommonModule,
@@ -28,15 +30,18 @@ import { Router } from '@angular/router';
     NgxSpinnerModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
     MatTooltipModule
   ]
 })
-export class LawFirmComponent implements OnInit {
-
+export class LawFirmManagerComponent implements OnInit {
   displayedColumns: string[] = ['lawFirmName', 'address','actions'];
   dataSource!: MatTableDataSource<LawFirm>;
+  dataSize : number = 0
+  currentPage: number = 0;
+  pageSize: number = 10;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private router: Router,
@@ -48,11 +53,6 @@ export class LawFirmComponent implements OnInit {
     this.getAll();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
   createNew(){
     this.router.navigate(['/law-firm-new']);
   }
@@ -62,14 +62,33 @@ export class LawFirmComponent implements OnInit {
     this.lawFirmService.getAllLawFirms().subscribe({
       next: response => {
         this.dataSource = new MatTableDataSource(response);
+        this.dataSize =  this.dataSource.data.length;
+        this.linkListToPaginator();
         this.spinner.hide();
       }
     })
   }
 
+  linkListToPaginator() {
+    merge(this.paginator.page).pipe(
+      startWith({}),
+      switchMap(() => {
+        return of(this.dataSource.data);
+      })
+    ).subscribe(res => {
+      const from = this.paginator.pageIndex * this.paginator.pageSize;
+      const to = from + this.paginator.pageSize;
+      this.dataSource.data = res.slice(from, to);
+    });
+  }
+
   update(propertyId: number){
     this.router.navigate(['/law-firm-new']);
   }
+
+  handlePageChange(event: any) {
+    this.getAll();
+   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

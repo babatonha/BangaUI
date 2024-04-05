@@ -1,83 +1,91 @@
 
-<div class="row">
-
-  <div class="col col-lg-9">
-    <app-search-bar
-      (triggerUpdatePropertyList)="refreshFilteredProperties()"
-      (triggerUpdateLocations)="refreshLocations($event)">
-    </app-search-bar>
-
-    <mat-list>
-      @for (item of propertyDatasource; track propertyDatasource) {
-        <div>
-          <mat-card class="custom-card">
-            <div class="row">
-
-              <div class="col-sm">
-                <img mat-card-xl-image src={{item.thumbnailUrl}} alt="Card Image" (click)="navigateToDetails(item.propertyId)" class="card-image">
-              </div>
-
-              <div class="col-sm">
-                <mat-card-content>
-                  <h2 (click)="navigateToDetails(item.propertyId)">{{item.price | currency}}</h2>
-                 
-
-                  <p>{{item.description}}</p>
-
-                  <div class="icon-parent">
-                    <div class="icon-div">
-                      <mat-icon class="details-icon">settings_overscan</mat-icon>
-                      <div>{{item.numberOfRooms}} m<sup>2</sup></div>
-                    </div>
-                    <div class="icon-div">
-                      <mat-icon class="details-icon">hotel</mat-icon>
-                      <div>{{item.numberOfRooms}} Bedrooms</div>
-                    </div>
-              
-                    <div class="icon-div">
-                      <mat-icon class="details-icon">hot_tub</mat-icon>
-                      <div>{{item.numberOfBathrooms}} Bathrooms</div>
-                    </div>
-                  </div>
-                </mat-card-content>
-
-                <mat-card-actions>
-                  <button mat-flat-button color="primary" class="action-buttons">Message Owner</button> 
-                  <span class="span-actions"></span>
-                  <button mat-flat-button color="primary" class="action-buttons" (click)="navigateToDetails(item.propertyId)">View Details</button>
-                </mat-card-actions>
-
-              </div>
-
-            </div>
-          </mat-card>
-        </div>
-      }
-    </mat-list>
-
-    <mat-paginator
-        [length]="dataSize"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Select page"
-        [pageIndex]="currentPage"
-        (page)="handlePageChange($event)">
-    </mat-paginator>
-
-    <div>
-      <h4 *ngIf="propertyDatasource.length===0">No Properties found</h4>
-    </div>
+<div >
   
+    <div class="row">
+      <div class="col col-lg-9">
+        <app-search-bar
+          (triggerUpdatePropertyList)="refreshFilteredProperties()"
+          (triggerUpdateLocations)="refreshLocations($event)">
+        </app-search-bar>
 
-  </div>
+        <app-filter
+          (triggerUpdatePropertyList)="refreshFilteredProperties()"
+          (triggerUpdateSearchFilter)="refreshSearchFilter($event)"
+          [locations]="locations">
+        </app-filter>
 
-  <div class="col-sm">
-    <app-filter
-    (triggerUpdatePropertyList)="refreshFilteredProperties()"
-    (triggerUpdateSearchFilter)="refreshSearchFilter($event)"
-    [locations]="locations"></app-filter>
-  </div>
+        <mat-list>
+          @for (item of propertyDatasource; track propertyDatasource) {
+            <div>
+              <mat-card class="custom-card" (click)="navigateToDetails(item.propertyId)">
+                <div class="row">
+    
+                  <div class="col col-lg-4">
+                    <img mat-card-xl-image src={{item.thumbnailUrl}} alt="Card Image" (click)="navigateToDetails(item.propertyId)" class="card-image">
+                  </div>
+    
+                  <div class="col-sm">
+                    <mat-card-content>
+                      <h2 (click)="navigateToDetails(item.propertyId)">{{item.price | currency}}</h2>
+                     
+    
+                      <p>{{item.description.length >= 80 ?  item.description.substring(0, 80) + " ..." : item.description}}</p>
 
+                      <div class="icon-parent">
+                        <mat-icon class="details-icon">location_on</mat-icon>
+                        <div>{{item.address}} , {{item.cityName}}, {{item.provinceName}}</div>
+                      </div>
+                     
+   
+                      <div class="icon-parent">
+                        <div class="icon-div">
+                          <mat-icon class="details-icon">home</mat-icon>
+                          <div>{{item.propertyTypeName}}</div>
+                        </div>
+
+                        <div class="icon-div">
+                          <mat-icon class="details-icon details-icon-margin">settings_overscan</mat-icon>
+                          <div>{{item.numberOfRooms}} m<sup>2</sup></div>
+                        </div>
+                        <div class="icon-div">
+                          <mat-icon class="details-icon details-icon-margin">thumb_up</mat-icon>
+                          <div>{{item.numberOfLikes}}</div>
+                        </div>
+                        
+                      </div>
+
+                     
+                    </mat-card-content>
+    
+                    <mat-card-actions>
+                      <button mat-flat-button color="primary" class="action-buttons" (click)="navigateToDetails(item.propertyId)">View More</button>
+                    </mat-card-actions>
+    
+                  </div>
+    
+                </div>
+              </mat-card>
+            </div>
+          }
+        </mat-list>
+    
+        <mat-paginator
+            [length]="dataSize"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page"
+            [pageIndex]="currentPage"
+            (page)="handlePageChange($event)">
+        </mat-paginator>
+    
+        <div>
+          <h4 *ngIf="propertyDatasource.length===0">No Properties found</h4>
+        </div>
+      </div>
+
+      <!-- <div class="col col-lg-3"></div> -->
+
+    </div>
 </div>
 
 

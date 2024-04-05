@@ -8,13 +8,18 @@
         [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
       </button>
+
+
       <mat-menu #menu="matMenu">
-        <button routerLink="/home"  mat-menu-item>Home</button>
         <button routerLink="/property-list" mat-menu-item>Seller</button>
         <button routerLink="/buyer-listing" mat-menu-item>Buyer</button>
-        <button routerLink="/law-firm-listing" mat-menu-item>Law Firm</button>
-        <button routerLink="/admin" mat-flat-button>Admin</button>
+        <button  routerLink="/law-firm-listing" mat-menu-item>Law Firm</button>
+        <button  *ngIf="loggedInUser" routerLink="/user-profile"  mat-menu-item>Profile</button>
+        <button  *ngIf="loggedInUser" (click)="logout()" mat-menu-item>Logout</button>
+        <button  *ngIf="!loggedInUser" routerLink="/login"  mat-flat-button>Login</button>
       </mat-menu>
+
+
 
       <span class="logo" routerLink="/home" >BANGA</span>
 
@@ -32,7 +37,7 @@
       <a routerLink="/property-list" class="top-menu-item" mat-button>Seller</a>
       <a routerLink="/buyer-listing" class="top-menu-item" mat-button>Buyer</a>
       <a routerLink="/law-firm-listing" class="top-menu-item" mat-button>Law firms</a>
-      <a routerLink="/admin" class="top-menu-item" mat-button>Admin</a>
+      <a routerLink="/admin" *ngIf="loggedInUser && currentUserRole ==='Admin'" class="top-menu-item" mat-button>Admin</a>
 
       <a *ngIf="!loggedInUser" routerLink="/login" class="top-menu-item" mat-flat-button>Login</a>
 

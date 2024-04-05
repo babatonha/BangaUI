@@ -1,14 +1,7 @@
+    <a class="link-filters" (click)="toggleFilters()">{{isApplyFilters ? 'Hide Filters' : 'Appy Filters'}} </a> 
+    <a class="link-filters" *ngIf="loggedInUser" (click)="createNewProperty()"> || Create Property</a> 
 
 
-
-<mat-card>
-  <mat-card-header>
-    <a class="link-filters" (click)="toggleFilters()">More Filters >>>>> </a> 
-  </mat-card-header>
-
-  <mat-divider></mat-divider>
-
-  <mat-card-content>
     <div id="filters">
       <form [formGroup]="myForm" (ngSubmit)="onFilterSubmit()">
       
@@ -106,11 +99,4 @@
       </form>
     </div>
 
-  </mat-card-content>
-
-  <!-- <mat-card-actions>
-    
-  </mat-card-actions> -->
-
-</mat-card>
 

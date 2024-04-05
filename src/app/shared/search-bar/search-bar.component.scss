@@ -7,3 +7,12 @@
   width: 100%;
 }
 
+.filter{
+  width: 100%;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1.7fr 0.3fr; /* Two equal-width columns */
+  gap: 1px; /* Adjust gap as needed */
+}

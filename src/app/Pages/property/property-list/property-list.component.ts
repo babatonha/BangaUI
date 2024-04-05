@@ -21,6 +21,7 @@ import { SearchFilter } from '../../../_models/searchFilter';
 import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
 import { startWith, switchMap } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
+import { ImageSliderComponent } from '../../../shared/image-slider/image-slider.component';
 
 
 
@@ -30,21 +31,23 @@ import { merge, of } from 'rxjs';
   styleUrls: ['./property-list.component.scss'],
   standalone: true,
   imports:[CommonModule,
-     PropertyDetailComponent,
-     SearchBarComponent,
-     CommonModule,
-     MatCardModule,
-     MatButtonModule,
-     MatFormFieldModule,
-     MatInputModule,
-     MatDatepickerModule,
-     MatGridListModule,
-     MatListModule,
-     MatIconModule,
-     MatPaginatorModule,
-     MatToolbarModule,
-     NgxSpinnerModule,
-    FilterComponent]
+    PropertyDetailComponent,
+    SearchBarComponent,
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatGridListModule,
+    MatListModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    NgxSpinnerModule,
+    FilterComponent,
+    ImageSliderComponent
+  ]
 })
 export class PropertyListComponent implements OnInit {
 

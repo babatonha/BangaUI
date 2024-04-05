@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Assign User Role</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="myForm" class="dialog" >
+        <div class="container">              
+              <div class="dense-1">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label class="label-style">Role</mat-label>
+                  <mat-select formControlName="roleName">
+                    @for (option of roles; track roles) {
+                      <mat-option [value]="option">{{option}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+        </div>
+      </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button cdkFocusInitial mat-flat-button color="primary" [disabled]="!myForm.valid" (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

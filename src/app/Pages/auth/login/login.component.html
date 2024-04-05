@@ -2,25 +2,17 @@
   <mat-card class="example-card">
 
     <div class="form-title">
-      <mat-card-title>Register</mat-card-title>
+      <mat-card-title>Login</mat-card-title>
     </div>
     
     <mat-divider></mat-divider>
 
     <mat-card-content>
       <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  
         <app-text-input
           type="text"
           [formControl]="$any(myForm.controls['userName'])"
           [label]="'Username'">
-        </app-text-input>
-
-        
-        <app-text-input
-          type="email"
-          [formControl]="$any(myForm.controls['email'])"
-          [label]="'Email'">
         </app-text-input>
 
         <app-password-input
@@ -28,15 +20,24 @@
           [label]="'Password'">
         </app-password-input>
 
-        <button mat-flat-button color="primary" type="submit" [disabled]="!myForm.valid">Register</button>
+
+        <button mat-flat-button class="submit-button" color="primary" type="submit" [disabled]="!myForm.valid">Login</button>
+
         <br>
         <div style="font-size: 12px;">
-          <a>Already have Account ? </a>  <mat-label class="redirect-link" routerLink="/login">Login</mat-label>
+          <a>Dont have Account ? </a><mat-label class="redirect-link"routerLink="/register">Register</mat-label> ||
+          <a> Forgot Password ? </a><mat-label class="redirect-link"routerLink="/forgot-password">Recover</mat-label>
         </div>
-        
+
+        <div>
+          
+        </div>
+
       </form>
 
     </mat-card-content>
 
   </mat-card>
 </div>
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

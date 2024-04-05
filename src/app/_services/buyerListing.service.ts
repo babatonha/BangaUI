@@ -23,4 +23,8 @@ import { BuyerListing } from "../_models/buyerListing";
     updateBuyerListing(buyer: BuyerListing){
       return this.http.put<any>(`${this.baseService.baseUrl}BuyersListing/`, buyer);
     }
+
+    deleteBuyerListing(buyerListingId: number){
+      return this.http.delete<any>(`${this.baseService.baseUrl}BuyersListing/${buyerListingId}`);
+    }
   }

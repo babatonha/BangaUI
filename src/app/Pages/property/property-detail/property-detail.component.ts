@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../../../_services/property.service';
 import { PropertyDetails } from '../../../_models/propertyDetails';
-import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +23,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LikesService } from '../../../_services/likes.service';
 import { Likes } from '../../../_models/likes';
 import { DefaultLike } from '../../../_static/likesDefaultData';
+import { ImageSliderComponent } from '../../../shared/image-slider/image-slider.component';
 
 @Component({
   selector: 'app-property-detail',
@@ -32,7 +32,6 @@ import { DefaultLike } from '../../../_static/likesDefaultData';
   standalone: true,
   imports:[
     CommonModule,
-    GalleryModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -41,13 +40,16 @@ import { DefaultLike } from '../../../_static/likesDefaultData';
     MatGridListModule,
     MatListModule,
     MatIconModule,
-    OfferListComponent
+    OfferListComponent,
+    ImageSliderComponent
   ]
 })
 export class PropertyDetailComponent implements OnInit {
   propertyId: number = 0;
   propertyDetails: PropertyDetails | undefined;
-  images: GalleryItem[] = [];
+  //images: GalleryItem[] = [];
+
+  images: any[] = [];
 
   currentUserId!:  number;
   propertyOffers: Offer[] = [] ;
@@ -122,6 +124,7 @@ export class PropertyDetailComponent implements OnInit {
   getPropertyDetails(){
     this.propertyService.getPropertyById(this.propertyId).subscribe({
       next: (response) => {
+        console.log(response)
         this.propertyDetails = response;
         this.getPropertyImages();
       }
@@ -132,7 +135,8 @@ export class PropertyDetailComponent implements OnInit {
   getPropertyImages(){
     if(this.propertyDetails && this.propertyDetails.propertyPhotos){
       for (const photo of this.propertyDetails.propertyPhotos) {
-       this.images.push(new ImageItem({src: photo.photoUrl, thumb: photo.photoUrl}));   
+       //this.images.push(new ImageItem({src: photo.photoUrl, thumb: photo.photoUrl}));  
+       this.images.push({image: photo.photoUrl, thumbImage: photo.photoUrl, title: ''});  
       }   
    }
   }

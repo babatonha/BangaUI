@@ -7,13 +7,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { AccountService } from '../../_services/account.service';
-import { Login } from '../../_models/login';
-import { User } from '../../_models/user';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TextInputComponent } from '../../shared/forms/text-input/text-input.component';
-import { PasswordInputComponent } from '../../shared/forms/password-input/password-input.component';
+import { TextInputComponent } from '../../../shared/forms/text-input/text-input.component';
+import { PasswordInputComponent } from '../../../shared/forms/password-input/password-input.component';
+import { Login } from '../../../_models/login';
+import { AccountService } from '../../../_services/account.service';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -32,16 +32,16 @@ import { PasswordInputComponent } from '../../shared/forms/password-input/passwo
     MatDividerModule,
     RouterModule,
     TextInputComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    NgxSpinnerModule
   ],
 })
 export class LoginComponent implements OnInit {
-  hide = true;
   loginModel!: Login;
   myForm!: FormGroup;
   constructor(private fb: FormBuilder,
     private accountService: AccountService,
-    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private router: Router) { }
 
   ngOnInit() {
@@ -54,17 +54,13 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     if (this.myForm.valid) {
       this.loginModel = this.myForm.value;
+      this.spinner.show();
       this.accountService.login(this.loginModel).subscribe({
-        next: response =>{
+        next: () =>{
           this.router.navigate(['/home']);
-        },
-        error: error => {
-          if(error && error.status === 401){
-            this.toastr.warning("Wrong username or password");
-          }
+          this.spinner.hide();  
         }
       })
-
     }
   }
 

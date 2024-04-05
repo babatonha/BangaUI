@@ -23,7 +23,7 @@ import { LawFirmService } from '../../../_services/lawFirm.service';
 @Component({
   selector: 'app-lawfirm-new',
   templateUrl: './lawfirm-new.component.html',
-  styleUrls: ['./lawfirm-new.component.css'],
+  styleUrls: ['./lawfirm-new.component.scss'],
   standalone:true,
   imports:[
     CommonModule,

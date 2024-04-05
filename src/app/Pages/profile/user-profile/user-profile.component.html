@@ -1,1 +1,69 @@
-<app-messages></app-messages>
+<mat-tab-group [tabIndex]="tabIndex">
+    <mat-tab>
+        <ng-template mat-tab-label>Profile</ng-template>
+
+            <mat-card class="example-card">          
+                <mat-card-content>              
+                    <div class="row" >
+                        <div class="col-sm">
+                            <div class="logo-image-container">
+                                <img class="logo-image" src="../../../../assets/images/user.png" alt="Logo">
+                                <br>
+                                <button class="logo-button" mat-raised-button  (click)="changeProfilePicture()">{{userDetails?.userName}}</button>
+                            </div>
+                        </div>
+            
+                        <div class="col col-lg-10">
+                            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                <app-text-input
+                                    type="text"
+                                    [formControl]="$any(myForm.controls['firstName'])"
+                                    [label]="'First Name'">
+                                </app-text-input>
+                    
+                                <app-text-input
+                                    type="text"
+                                    [formControl]="$any(myForm.controls['lastName'])"
+                                    [label]="'Last Name'">
+                                </app-text-input>
+
+                                <app-text-input
+                                    type="text"
+                                    [formControl]="$any(myForm.controls['email'])"
+                                    [label]="'Email'">
+                                </app-text-input>
+                
+                                <app-text-input
+                                    type="text"
+                                    [formControl]="$any(myForm.controls['phoneNumber'])"
+                                    [label]="'Phone Number'">
+                                </app-text-input>
+
+                                <app-text-input
+                                    type="text"
+                                    [formControl]="$any(myForm.controls['idNumber'])"
+                                    [label]="'ID Number'">
+                                </app-text-input>
+
+                                <button mat-flat-button color="primary" type="submit" matStepperNext [disabled]="!myForm.valid">Save Changes</button>
+                                    
+                            </form>
+                        </div>
+                    </div>
+            
+            
+                </mat-card-content>
+            
+                
+            
+            </mat-card>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label >Messages </ng-template>
+        <app-messages></app-messages>      
+    </mat-tab>
+  
+  </mat-tab-group>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

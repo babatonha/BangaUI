@@ -1,82 +1,104 @@
 
 <mat-card>
   <mat-card-content>
-
     <div class="row">
-      <div class="col-sm">
-        <gallery *ngIf="propertyDetails?.propertyPhotos"
-            [items]="images" 
-            [imageSize]="'cover'"
-            [thumb]="false"
-            [nav]="true"
-            [dots]="true"
-            class="gallery-photo"
-          >
-        </gallery>
+      <div class="col-lg-4">
+        <app-image-slider [imageObject]="images"></app-image-slider>
       </div>
 
       <div class="col-sm">
-        <h2>{{propertyDetails?.property?.price | currency}}</h2>
+        <h2>{{propertyDetails?.property?.price | currency}}</h2>  
 
-                  
             <div class="icon-div">
               <mat-icon class="details-icon">place</mat-icon>
-              <div> {{propertyDetails?.property?.cityName}} </div>
+              <div> {{propertyDetails?.property?.address}}, {{propertyDetails?.property?.cityName}}, {{propertyDetails?.property?.provinceName}} </div>
             </div>
 
-              <div class="icon-parent">
-                <div class="icon-div">
-                  <mat-icon class="details-icon">hotel</mat-icon>
-                  <div>{{propertyDetails?.property?.numberOfRooms}} Bedrooms</div>
-                </div>
+            <br>
 
-                <div class="icon-div">
-                  <mat-icon class="details-icon">hot_tub</mat-icon>
-                  <div>{{propertyDetails?.property?.numberOfBathrooms}} Bathrooms</div>
-                </div>
+            <div class="icon-parent">
+              <div class="icon-div">
+                <mat-icon class="details-icon">home</mat-icon>
+                <div>{{propertyDetails?.property?.propertyTypeName}}</div>
+              </div>
+              <div class="icon-div">
+                <mat-icon class="details-icon details-icon-margin">insert_drive_file</mat-icon>
+                <div>Registration Type </div>
+              </div>
+            </div>
+
+
+            
+            <div class="icon-parent">
+              <div class="icon-div">
+                <mat-icon class="details-icon">settings_overscan</mat-icon>
+                <div>{{propertyDetails?.property?.squreMeters}} m<sup>2</sup></div>
+              </div>
+              <div class="icon-div">
+                <mat-icon class="details-icon details-icon-margin">directions_car</mat-icon>
+                <div>{{propertyDetails?.property?.parkingSpots}} Car Park</div>
+              </div>
+            </div>
+            <div class="icon-parent">
+              <div class="icon-div">
+                <mat-icon class="details-icon">hotel</mat-icon>
+                <div>{{propertyDetails?.property?.numberOfRooms}} Bedrooms</div>
               </div>
 
-
-
-              <div class="icon-parent">
-                <div class="icon-div">
-                  <mat-icon class="details-icon">settings_overscan</mat-icon>
-                  <div>{{propertyDetails?.property?.numberOfRooms}} m<sup>2</sup></div>
-                </div>
-                <div class="icon-div">
-                  <mat-icon class="details-icon">directions_car</mat-icon>
-                  <div>{{propertyDetails?.property?.parkingSpots}} Car Park</div>
-                </div>
+              <div class="icon-div">
+                <mat-icon class="details-icon details-icon-margin">hot_tub</mat-icon>
+                <div>{{propertyDetails?.property?.numberOfBathrooms}} Bathrooms</div>
               </div>
-
-
-
-          <div>
-            <h1>Description</h1>
-            {{propertyDetails?.property?.description}}
-          </div>
+            </div>
 
           <div>
-            <h1>Amenities</h1>
+
+            <br>
+
+          <h2>Amenities</h2>
             Good zesa, Municipal water, veranda, walled.
           </div>
 
+          <br>
+
           <div>
-            <h1>Numner Of Likes</h1>
-            ({{propertyDetails?.property?.numberOfLikes}})
+            <h4> Property Status:  {{propertyDetails?.property?.isSold ? 'Sold' : 'Available'}}</h4>
           </div>
+
 
       </div>
     </div>
 
-    <button mat-flat-button color="primary" (click)="openOfferDialog()">Make Offer</button>
-    <app-offer-list [dataSource]="matTablePropertyOffers"></app-offer-list>
+    <div>
+      <div>
+        <h2>Description</h2>
+        {{propertyDetails?.property?.description}}
+      </div>
+    </div>
 
+    <br>
 
+    <div *ngIf="currentUserId===propertyDetails?.property?.ownerId">
+      <h2>Current Offers</h2>
+      <app-offer-list [dataSource]="matTablePropertyOffers"></app-offer-list>
+    </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-flat-button color="primary">Make An Offer</button>
-    <button mat-flat-button color="primary">Contact Owner</button>
-    <button mat-flat-button color="primary" (click)="onLikeClick()"> {{userLike.isLiked ? 'UnLike' :'Like'}}  </button>
-  </mat-card-actions>
+
+<br>
+    <div class="row actions" *ngIf="currentUserId!==propertyDetails?.property?.ownerId">
+      <div class="col-sm">
+        <button class="btn-action" mat-flat-button color="primary" (click)="openOfferDialog()">Make An Offer</button>
+      </div>
+
+      <div class="col-sm">
+        <button class="btn-action" mat-flat-button color="primary">Contact Owner</button>
+      </div>
+
+      <div class="col-sm">
+        <button class="btn-action" mat-flat-button color="primary" (click)="onLikeClick()"> {{userLike.isLiked ? 'UnLike' :'Like'}}  ({{propertyDetails?.property?.numberOfLikes}})  </button>
+      </div>
+    </div>
+    
+   
+    <br>
 </mat-card>

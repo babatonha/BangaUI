@@ -4,16 +4,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Register } from '../../_models/register';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
-import { AccountService } from '../../_services/account.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TextInputComponent } from '../../shared/forms/text-input/text-input.component';
-import { PasswordInputComponent } from '../../shared/forms/password-input/password-input.component';
+import { TextInputComponent } from '../../../shared/forms/text-input/text-input.component';
+import { PasswordInputComponent } from '../../../shared/forms/password-input/password-input.component';
+import { Register } from '../../../_models/register';
+import { AccountService } from '../../../_services/account.service';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +34,8 @@ import { PasswordInputComponent } from '../../shared/forms/password-input/passwo
     MatDividerModule,
     RouterModule,
     TextInputComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    NgxSpinnerModule
   ],
 })
 export class RegisterComponent implements OnInit {
@@ -46,6 +48,7 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,  
     private accountService: AccountService) { }
 
   ngOnInit() {
@@ -58,11 +61,13 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     if (this.myForm.valid) {
+      this.spinner.show();  
       this.registerModel = this.myForm.value;
 
     this.accountService.register(this.registerModel).subscribe({
         next: (response) => {
           this.router.navigate(['/login']);
+          this.spinner.hide();  
         }
       });
     }
