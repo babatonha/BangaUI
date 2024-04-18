@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
 import { merge, of, startWith, switchMap } from 'rxjs';
 import { ManagePropertyModel } from '../../../_models/manageProperty';
+import { PropertyEditComponent } from '../../property/property-edit/property-edit.component';
+import { AccountService } from '../../../_services/account.service';
 
 @Component({
   selector: 'app-property-manager',
@@ -47,26 +49,32 @@ export class PropertyManagerComponent implements OnInit {
   currentPage: number = 0;
   pageSize: number = 10;
 
+  @Input() isAdmin: boolean = false;
+  currentUserId: number = 0;
+
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
  
 
   constructor(
     private propertyService: PropertyService,
+    private accountService: AccountService,
     public dialog: MatDialog,
     public toastr: ToastrService,
     private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
     this.getAllProperties();
+    this.getCurrentUser();
   }
 
   getAllProperties(){
     this.spinner.show(); 
     const search = DefaultSearchFilter.getDefaultSearchFilter();
     this.propertyService.getFilteredProperties(search).subscribe({
-      next: response => {
-        this.dataSource = new MatTableDataSource(response);
+      next: (response: Property[] )=> {
+        const filteredResponse  = this.isAdmin ? response :  response.filter(x => x.ownerId == this.currentUserId);
+        this.dataSource =  new MatTableDataSource(filteredResponse);
         this.dataSize =  this.dataSource.data.length;
         this.linkListToPaginator();
         this.spinner.hide();
@@ -111,6 +119,26 @@ export class PropertyManagerComponent implements OnInit {
       }
     })
 
+  }
+
+  editPropertyDialog(propertyId: number) { 
+    this.dialog.open(PropertyEditComponent, 
+      {
+        data: {
+          propertyId : propertyId
+        }
+      });
+  }
+
+  getCurrentUser(){
+    this.accountService.currentUser$.subscribe({
+      next: user => {
+        if(user){
+          this.currentUserId = user.id;
+        }
+      },
+      error: error =>{}
+    })
   }
 
 

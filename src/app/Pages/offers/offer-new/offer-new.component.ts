@@ -23,7 +23,6 @@ import { AccountService } from '../../../_services/account.service';
     MatButtonModule,
     MatDialogModule,
     TextInputComponent,
-    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

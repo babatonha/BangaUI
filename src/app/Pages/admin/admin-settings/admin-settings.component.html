@@ -6,12 +6,12 @@
 
   <mat-tab>
       <ng-template mat-tab-label >Properties</ng-template> 
-      <app-property-manager></app-property-manager>   
+      <app-property-manager [isAdmin]="true"></app-property-manager>   
   </mat-tab>
 
   <mat-tab>
       <ng-template mat-tab-label >Buyers</ng-template>
-      <app-buyer-manager></app-buyer-manager>    
+      <app-buyer-manager [isAdmin]="true"></app-buyer-manager>    
   </mat-tab>
 
   <mat-tab>

@@ -6,24 +6,43 @@
   .example-full-width {
     margin-top: 10px;
     width: 100%;
+    font-size: 10px;
+  }
+
+  
+  
+  mat-option{
     font-size: 12px;
   }
 
-
+  .label-style{
+    font-size: 12px;
+  }
+  .mat-option{
+    font-size: 12px;
+  }
+  
+  .mat-mdc-select{
+    font-size: 12px;
+  }
   
   .centered-div {
     text-align: center;
+    height: 400px; 
+    padding: 10px; 
   }
 
   .done-icon {
     color: green;
-    font-size: 64px;
+    font-size: 80px;
   }
 
 
   .image-container {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 0.5rem;
+    height: 120px; 
+    overflow: hidden; 
   }
 
   .delete-btn {
@@ -36,4 +55,24 @@
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+  }
+
+  .example-additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+  }
+
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+  }
+
+  .property-images{
+    height: 400px; /* Fixed height for the div */
+    overflow-y: scroll; /* Enable vertical scrollbar */
+    border: 1px solid #ccc; /* Optional: Add border for visual clarity */
+    padding: 10px; 
   }

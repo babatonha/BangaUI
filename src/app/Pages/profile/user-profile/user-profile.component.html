@@ -63,6 +63,16 @@
         <ng-template mat-tab-label >Messages </ng-template>
         <app-messages></app-messages>      
     </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label >Sell </ng-template>
+        <app-property-manager [isAdmin]="false"></app-property-manager>   
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label >Buy </ng-template>
+        <app-buyer-manager [isAdmin]="false"></app-buyer-manager>    
+    </mat-tab>
   
   </mat-tab-group>
 

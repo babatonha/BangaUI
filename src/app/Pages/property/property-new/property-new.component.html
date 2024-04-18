@@ -41,6 +41,23 @@
                       </mat-select>
                     </mat-form-field>
                   </div>
+
+                  <app-text-input
+                    type="text"
+                    [formControl]="$any(myForm.controls['address'])"
+                    [label]="'Address'">
+                  </app-text-input>
+
+                  <div class="dense-1">
+                    <mat-form-field  class="example-full-width" appearance="outline">
+                      <mat-label class="label-style">Suburb</mat-label>
+                      <mat-select formControlName="suburbId">
+                        @for (option of suburbs; track propertyTypes) {
+                          <mat-option [value]="option.suburbId">{{option.name}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
       
                   <div class="dense-1">
                     <mat-form-field class="example-full-width" appearance="outline">
@@ -52,13 +69,7 @@
                       </mat-select>
                     </mat-form-field>
                   </div>
-      
-                  <app-text-input
-                    type="text"
-                    [formControl]="$any(myForm.controls['address'])"
-                    [label]="'Address'">
-                  </app-text-input>
-      
+
                   <app-text-input
                     type="text"
                     [formControl]="$any(myForm.controls['description'])"
@@ -69,10 +80,10 @@
                 <div class="col-sm">
 
                   <app-text-input
-                  type="number"
-                  [formControl]="$any(myForm.controls['price'])"
-                  [label]="'Price'">
-                  </app-text-input>
+                    type="number"
+                    [formControl]="$any(myForm.controls['price'])"
+                    [label]="'Price'">
+                    </app-text-input>
       
                   <app-text-input
                     type="number"
@@ -91,6 +102,26 @@
                     [formControl]="$any(myForm.controls['parkingSpots'])"
                     [label]="'Number Of Parking Spaces'">
                   </app-text-input>
+
+                  <div class="dense-1">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label class="label-style">Amenities</mat-label>
+                      <mat-select formControlName="amenities" multiple (selectionChange)="onSelectionChange($event)">
+                        <mat-select-trigger>
+                          {{selectedAmenities[0] || ''}}
+                          @if ((selectedAmenities.length || 0) > 1) {
+                            <span class="example-additional-selection">
+                              (+{{(selectedAmenities.length || 0) - 1}} {{selectedAmenities.length === 2 ? 'other' : 'others'}})
+                            </span>
+                          }
+                        </mat-select-trigger>
+                        @for (amenity of amenitiesList; track amenity) {
+                          <mat-option [value]="amenity">{{amenity}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+    
+                  </div>
       
                   <app-text-input
                     type="text"
@@ -100,9 +131,11 @@
              
                 </div>
               </div>
+
+             
             </div>
       
-            <button mat-flat-button color="primary" type="submit" matStepperNext [disabled]="!myForm.valid">Save And Continue</button>
+            <button mat-button type="submit" matStepperNext [disabled]="!myForm.valid">Save And Continue</button>
                   
           </form>
         </mat-step>
@@ -115,7 +148,7 @@
                 <app-photo-editor></app-photo-editor>
               </div>
 
-              <div class="col-sm">
+              <div class="col-sm property-images">
 
                 <div class="container mt-4">
                   <div class="row">
@@ -125,7 +158,7 @@
                       <div class="col-md-4">
                         <div class="image-container">
                           <img src={{item.photoUrl}} class="img-fluid" alt="Image 1">
-                          <button class="delete-btn" onclick="deleteImage(this)">Delete</button>
+                          <button class="delete-btn" (click)="deletePhoto(item.propertyPhotoId)">Delete</button>
                         </div>
                       </div>
                     }
@@ -137,26 +170,11 @@
           
             <div>
               <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
+              <button mat-button matStepperNext>Save And Exit</button>
             </div>
           </form>
         </mat-step>
       
-      
-        <mat-step>
-          
-          <div class="centered-div">
-            <i class="material-icons done-icon">done</i>
-            <p>You have completed the process</p>
-          </div>
-      
-      
-          
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-          </div>
-        </mat-step>
       </mat-stepper>
 
     </mat-card-content>

@@ -15,6 +15,8 @@ import { AccountService } from '../../../_services/account.service';
 import { UserDetails } from '../../../_models/user-details';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { PropertyManagerComponent } from '../../admin/property-manager/property-manager.component';
+import { BuyerManagerComponent } from '../../admin/buyer-manager/buyer-manager.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -33,7 +35,9 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     MatInputModule,
     ReactiveFormsModule,
     TextInputComponent,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    PropertyManagerComponent,
+    BuyerManagerComponent
   ]
 })
 export class UserProfileComponent implements OnInit {

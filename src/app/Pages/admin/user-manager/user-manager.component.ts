@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserDetails } from '../../../_models/user-details';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { UserService } from '../../../_services/user.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
@@ -46,6 +46,7 @@ export class UserManagerComponent implements OnInit {
   dataSize : number = 0
   currentPage: number = 0;
   pageSize: number = 10;
+
 
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;

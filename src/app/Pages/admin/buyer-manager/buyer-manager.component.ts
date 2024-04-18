@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +45,8 @@ export class BuyerManagerComponent implements OnInit {
   dataSize : number = 0
   currentPage: number = 0;
   pageSize: number = 10;
+
+  @Input() isAdmin: boolean = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 

@@ -31,7 +31,8 @@
   
           <mat-icon aria-hidden="false"  [matMenuTriggerFor]="menulogin" matTooltip="More Actions" class="actions" fontIcon="more_vert"></mat-icon>
           <mat-menu #menulogin="matMenu">
-            <button  mat-menu-item (click)="manageProperty(row.propertyId, !row.isActive, row.isSold)">{{row.isActive ? 'Diactivate' : 'Activate' }}</button>
+            <button  mat-menu-item (click)="editPropertyDialog(row.propertyId)">Edit</button>
+            <button *ngIf="isAdmin" mat-menu-item (click)="manageProperty(row.propertyId, !row.isActive, row.isSold)">{{row.isActive ? 'Diactivate' : 'Activate' }}</button>
             <button  mat-menu-item (click)="manageProperty(row.propertyId, row.isActive, !row.isSold)">{{row.isSold ? 'Mark As Available' : 'Mark As Sold' }}</button>
           </mat-menu>
          </td>

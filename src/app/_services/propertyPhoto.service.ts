@@ -19,4 +19,8 @@ import { BaseService } from "./base.service";
     getPropertyPhotos(propertyId: number){
       return this.http.get<any>(`${this.baseService.baseUrl}PropertyPhoto/${propertyId}`);
     }
+
+    deletePhoto(photoId: number){
+      return this.http.delete<any>(`${this.baseService.baseUrl}PropertyPhoto/${photoId}`);
+    }
   }

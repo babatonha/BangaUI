@@ -9,6 +9,7 @@ export interface Property{
     propertyTypeId : number;
     propertyTypeName : string;
     squreMeters: number;
+    suburbId: number;
     cityId : number;
     cityName : string;
     provinceId : number;
@@ -23,6 +24,7 @@ export interface Property{
     youtubeUrl : string;
     hasLawyer : boolean;
     numberOfLikes : number;
+    amenities: string;
     isActive: boolean;
     isSold: boolean;
 }

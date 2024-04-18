@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -57,7 +57,16 @@ export class PropertyNewComponent implements OnInit {
   propertyTypes: PropertyType[] = [];
   lawFirms: LawFirm[] = [];
   propertyPhotos: PropertyPhoto[] = [];
-  propertyId: number = 1;
+  propertyId: number = 0;
+
+  suburbs: any[] = [];
+
+  selectedAmenities: string[] = [];
+
+
+
+  amenitiesList: string[] = ['Good zesa', 'Municipal water', 'Veranda', 
+  'Walled', 'Pool', 'Gym', 'Garage', 'Fenced', 'Fireplace', 'Garden'];
 
   isLinear: boolean = false;
 
@@ -75,6 +84,7 @@ export class PropertyNewComponent implements OnInit {
     this.getCities();
     this.getPropertyTypes();
     this.getLawFirms();
+    this.getSuburbs();
     this.generatePropertyForm();
     this.getPropertyPhotos();
   }
@@ -90,6 +100,7 @@ export class PropertyNewComponent implements OnInit {
       assignedLawyerName :  [''],
       propertyTypeId :  ['', [Validators.required]],
       propertyTypeName :  [''],
+      suburbId :  [0],
       cityId :  [0, [Validators.required]],
       cityName :  [''],
       provinceId :  [0],
@@ -104,7 +115,13 @@ export class PropertyNewComponent implements OnInit {
       youtubeUrl : [''],
       hasLawyer :  [false],
       numberOfLikes :  [0],
+      amenities: [''],
+
     });
+  }
+
+  onSelectionChange(event: any) {
+    this.selectedAmenities =  event.value;
   }
 
   getCities(){
@@ -131,10 +148,29 @@ export class PropertyNewComponent implements OnInit {
     });
   }
 
+  getSuburbs(){
+    this.locationService.getAllSuburbs().subscribe({
+      next: (response) => {
+          this.suburbs = response;
+      }
+    })
+  }
+
   getPropertyPhotos(){
     this.propertyPhotoService.getPropertyPhotos(this.propertyId).subscribe({
       next: response =>{
         this.propertyPhotos = response;
+      }
+    })
+  }
+
+  deletePhoto(photoId: number){
+    this.spinner.show();
+    this.propertyPhotoService.deletePhoto(photoId).subscribe({
+      next: response =>{
+        this.toastr.success("Successfully Deleted!");
+        this.getPropertyPhotos(); 
+        this.spinner.hide();
       }
     })
   }
@@ -151,6 +187,6 @@ export class PropertyNewComponent implements OnInit {
             this.spinner.hide();
           }
         });
-      }
+   }
   }
 }

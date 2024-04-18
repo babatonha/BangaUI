@@ -65,5 +65,4 @@ constructor(private baseService: BaseService,
     this.currentUserSource.next(null);
     this.presenceService.stopHubConnection();
   }
-
 }
