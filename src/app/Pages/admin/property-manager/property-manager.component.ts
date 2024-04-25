@@ -18,8 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DefaultSearchFilter } from '../../../_static/searchFilterDefaultData';
 import { merge, of, startWith, switchMap } from 'rxjs';
 import { ManagePropertyModel } from '../../../_models/manageProperty';
-import { PropertyEditComponent } from '../../property/property-edit/property-edit.component';
 import { AccountService } from '../../../_services/account.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-property-manager',
@@ -61,6 +62,7 @@ export class PropertyManagerComponent implements OnInit {
     private accountService: AccountService,
     public dialog: MatDialog,
     public toastr: ToastrService,
+    private router: Router,
     private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
@@ -118,16 +120,16 @@ export class PropertyManagerComponent implements OnInit {
         this.spinner.hide();
       }
     })
-
   }
 
-  editPropertyDialog(propertyId: number) { 
-    this.dialog.open(PropertyEditComponent, 
-      {
-        data: {
-          propertyId : propertyId
-        }
-      });
+  editPropertyDialog(id: number) { 
+    this.router.navigate(['/property-new', id])
+    // this.dialog.open(PropertyEditComponent, 
+    //   {
+    //     data: {
+    //       propertyId : propertyId
+    //     }
+    //   });
   }
 
   getCurrentUser(){

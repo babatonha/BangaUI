@@ -59,7 +59,7 @@ export class PropertyListComponent implements OnInit {
 
   dataSize : number = 0
   currentPage: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 10;
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 

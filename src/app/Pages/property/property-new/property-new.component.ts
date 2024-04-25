@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Property } from '../../../_models/property';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,14 +9,11 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TextInputComponent } from '../../../shared/forms/text-input/text-input.component';
 import { City } from '../../../_models/city';
 import { PropertyType } from '../../../_models/propertyType';
 import { LawFirm } from '../../../_models/lawFirm';
-import { PropertyTypeService } from '../../../_services/propertyType.service';
-import { LocationService } from '../../../_services/location.service';
-import { LawFirmService } from '../../../_services/lawFirm.service';
 import { PropertyService } from '../../../_services/property.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,6 +22,7 @@ import { PhotoEditorComponent } from '../../../shared/photo-editor/photo-editor.
 import {MatStepperModule} from '@angular/material/stepper';
 import { PropertyPhoto } from '../../../_models/propertyPhoto';
 import { PropertyPhotoService } from '../../../_services/propertyPhoto.service';
+import { PropertyDetails } from '../../../_models/propertyDetails';
 
 @Component({
   selector: 'app-property-new',
@@ -58,35 +56,90 @@ export class PropertyNewComponent implements OnInit {
   lawFirms: LawFirm[] = [];
   propertyPhotos: PropertyPhoto[] = [];
   propertyId: number = 0;
+ currentPropertyId!: number;
 
   suburbs: any[] = [];
 
   selectedAmenities: string[] = [];
 
-
-
   amenitiesList: string[] = ['Good zesa', 'Municipal water', 'Veranda', 
   'Walled', 'Pool', 'Gym', 'Garage', 'Fenced', 'Fireplace', 'Garden'];
 
-  isLinear: boolean = false;
+  isLinear: boolean = true;
 
   constructor(private fb: FormBuilder,
     private propertyService: PropertyService,
-    private propertyTypeSrvice: PropertyTypeService,
     private propertyPhotoService: PropertyPhotoService,
-    private locationService: LocationService,
-    private lawFirmService: LawFirmService,
     private router: Router,
     private toastr: ToastrService,
+    private route: ActivatedRoute, 
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.getCities();
-    this.getPropertyTypes();
-    this.getLawFirms();
-    this.getSuburbs();
     this.generatePropertyForm();
-    this.getPropertyPhotos();
+    this.loadPageData();
+  }
+
+  loadPageData(){
+
+    this.propertyService.getPropertyLookupData().subscribe({
+      next: (response) => {
+          this.cities = response.cities;
+          this.suburbs = response.suburbs;
+          this.lawFirms = response.lawFirms;  
+          this.propertyTypes = response.propertyTypes;
+
+          this.route.params.subscribe((params: any) => {
+            this.currentPropertyId = +params['id'];
+            if(this.currentPropertyId > 0){
+              this.getCurrentPropertyData();
+              this.getPropertyPhotos(this.currentPropertyId);
+            }else{
+              this.getPropertyPhotos(this.propertyId);
+            }
+            
+          });
+
+          
+      }
+    });
+ 
+  }
+
+
+  getCurrentPropertyData(){
+    this.propertyService.getPropertyById(this.currentPropertyId).subscribe({
+      next: (response: PropertyDetails) => {
+        if(response){
+
+          //this.selectedAmenities = response.property.amenities? response.property.amenities.split(','): [];
+          this.myForm = this.fb.group({
+            propertyId : [response.property.propertyId],
+            ownerId :  [response.property.ownerId],
+            assignedLawyerId :  [response.property.assignedLawyerId],
+            statusID :  [response.property.statusID],
+            propertyTypeId :  [response.property.propertyTypeId, [Validators.required]],
+            suburbId :  [response.property.suburbId],
+            cityId :  [ response.property.cityId, [Validators.required]],
+            provinceId :  [response.property.provinceId, [Validators.required]],
+            address :  [response.property.address, [Validators.required]],
+            price :  [response.property.price, [Validators.required]],
+            description : [response.property.description, [Validators.required]],
+            numberOfRooms : [response.property.numberOfRooms, [Validators.required]],
+            numberOfBathrooms :  [response.property.numberOfBathrooms, [Validators.required]],
+            parkingSpots :  [response.property.parkingSpots, [Validators.required]],
+            thumbnailUrl: [response.property.thumbnailUrl],
+            youtubeUrl : [response.property.youtubeUrl],
+            hasLawyer :  [response.property.hasLawyer],
+            numberOfLikes :  [response.property.numberOfLikes],
+            amenities: [response.property.amenities],
+            isSold: [response.property.isSold],
+            isDeleted: [response.property.isDeleted],
+            isActive: [response.property.isActive],
+          });
+        }
+      }
+    });
   }
 
   generatePropertyForm(){
@@ -124,40 +177,8 @@ export class PropertyNewComponent implements OnInit {
     this.selectedAmenities =  event.value;
   }
 
-  getCities(){
-    this.locationService.getAllCitites().subscribe({
-      next: (response) => {
-          this.cities = response;
-      }
-    });
-  }
-
-  getPropertyTypes(){
-    this.propertyTypeSrvice.getAllPropertyTypes().subscribe({
-      next: (response) => {
-          this.propertyTypes = response;
-      }
-    });
-  }
-
-  getLawFirms(){
-    this.lawFirmService.getAllLawFirms().subscribe({
-      next: (response) => {
-          this.lawFirms = response;
-      }
-    });
-  }
-
-  getSuburbs(){
-    this.locationService.getAllSuburbs().subscribe({
-      next: (response) => {
-          this.suburbs = response;
-      }
-    })
-  }
-
-  getPropertyPhotos(){
-    this.propertyPhotoService.getPropertyPhotos(this.propertyId).subscribe({
+  getPropertyPhotos(propertyId: number){
+    this.propertyPhotoService.getPropertyPhotos(propertyId).subscribe({
       next: response =>{
         this.propertyPhotos = response;
       }
@@ -169,7 +190,7 @@ export class PropertyNewComponent implements OnInit {
     this.propertyPhotoService.deletePhoto(photoId).subscribe({
       next: response =>{
         this.toastr.success("Successfully Deleted!");
-        this.getPropertyPhotos(); 
+        this.getPropertyPhotos(this.currentPropertyId); 
         this.spinner.hide();
       }
     })
@@ -179,11 +200,18 @@ export class PropertyNewComponent implements OnInit {
     if (this.myForm.valid) {
       this.spinner.show();
       this.newRecord = this.myForm.value;
+      this.newRecord.amenities = this.selectedAmenities.toString();
 
       this.propertyService.createProperty(this.newRecord).subscribe({
           next: () => {  
             this.toastr.success("Successfully Saved!");  
-            this.router.navigate(['/home']);
+            if(this.currentPropertyId > 0){
+              //this.router.navigate(['/property', this.currentPropertyId]);
+
+            }else{
+              this.router.navigate(['/home']);
+            }
+            
             this.spinner.hide();
           }
         });

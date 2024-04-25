@@ -7,9 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { TextInputComponent } from '../../../shared/forms/text-input/text-input.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../../_services/account.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { PropertyNewComponent } from '../property-new/property-new.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -35,11 +34,13 @@ export class PropertyEditComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     public dialog: MatDialog,
-    private accountService: AccountService,
-    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute, 
   ) { }
 
+  propertyId!: number;
+
   ngOnInit() {
+
   }
 
 }

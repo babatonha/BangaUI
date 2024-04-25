@@ -27,4 +27,5 @@ export interface Property{
     amenities: string;
     isActive: boolean;
     isSold: boolean;
+    isDeleted: boolean;
 }

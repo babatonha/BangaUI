@@ -12,9 +12,10 @@
 
     <mat-card-content>
       <mat-stepper [linear]="isLinear" #stepper>
+        
 
         <mat-step [stepControl]="myForm" >
-          <h2 class="title">Details</h2>
+          <ng-template matStepLabel>Details</ng-template>
           <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <div class="container">
               <div class="row">
@@ -135,13 +136,14 @@
              
             </div>
       
-            <button mat-button type="submit" matStepperNext [disabled]="!myForm.valid">Save And Continue</button>
+            <button mat-flat-button type="submit" color="primary" matStepperNext [disabled]="!myForm.valid">Save And Continue</button>
                   
           </form>
         </mat-step>
       
       
         <mat-step [stepControl]="myForm" >
+          <ng-template matStepLabel>Photos</ng-template>
           <form [formGroup]="myForm">
             <div class="row">
               <div class="col-sm">
@@ -169,8 +171,8 @@
             </div>
           
             <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Save And Exit</button>
+              <button mat-flat-button matStepperPrevious color="primary">Back</button>
+              <button mat-flat-button matStepperNext color="primary">Save And Exit</button>
             </div>
           </form>
         </mat-step>

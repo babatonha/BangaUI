@@ -29,4 +29,8 @@ import { ManagePropertyModel } from "../_models/manageProperty";
     manageProperty(property: ManagePropertyModel){
       return this.http.put<any>(`${this.baseService.baseUrl}Property/Manage`, property);
     }
+
+    getPropertyLookupData(){
+      return this.http.get<any>(`${this.baseService.baseUrl}Property/Lookup`);
+    }
   }
