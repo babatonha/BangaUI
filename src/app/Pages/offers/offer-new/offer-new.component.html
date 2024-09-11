@@ -10,12 +10,16 @@
                 [formControl]="$any(myForm.controls['amount'])"
                 [label]="'Amount'">
               </app-text-input>
-              
-              <app-text-input
-                type="text"
-                [formControl]="$any(myForm.controls['description'])"
-                [label]="'Description'">
-              </app-text-input>
+                          
+              <mat-form-field [style.fontSize]="'11px'" appearance="outline" class="example-full-width">
+                <mat-label [style.fontSize]="'11px'">Description</mat-label>
+                <textarea matInput
+                          formControlName="description"
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="5"></textarea>
+              </mat-form-field>
         </div>
       </form>
 

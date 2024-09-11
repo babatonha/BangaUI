@@ -1,0 +1,51 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+  
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+      <td mat-cell *matCellDef="let row" > {{row.address}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Property Price </th>
+      <td mat-cell *matCellDef="let row" > {{row.price | currency}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Offer Amount </th>
+      <td mat-cell *matCellDef="let row" > {{row.amount | currency}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+      <td mat-cell *matCellDef="let row">
+
+        <mat-icon aria-hidden="false"  [matMenuTriggerFor]="menulogin" matTooltip="More Actions" class="actions" fontIcon="more_vert"></mat-icon>
+        <mat-menu #menulogin="matMenu">
+          <button  mat-menu-item (click)="comfirmOffer(row.propertyOfferId, row.isOfferConfirmed)">{{row.isOfferConfirmed ? 'Unconfirm Offer' : 'Confirm Offer'}}</button>
+          <button  mat-menu-item (click)="downloadOffer(row.propertyOfferId)">Download Offer</button>
+        </mat-menu>
+       </td>
+    </ng-container>
+
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr> -->
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of properties"></mat-paginator>
+</div>
+
+
+
+
+<app-offer-template></app-offer-template>
+
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

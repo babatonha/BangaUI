@@ -124,7 +124,6 @@ export class PropertyDetailComponent implements OnInit {
   getPropertyDetails(){
     this.propertyService.getPropertyById(this.propertyId).subscribe({
       next: (response) => {
-        console.log(response)
         this.propertyDetails = response;
         this.getPropertyImages();
       }
@@ -153,18 +152,21 @@ export class PropertyDetailComponent implements OnInit {
   }
 
   openOfferDialog() { 
-    const response: Offer  = this.propertyOffers.filter(x => x.propertyId === this.propertyId && x.offerByUserId === this.currentUserId)[0];
+    if( this.propertyId > 0 && this.currentUserId > 0){
+        const response: Offer  = this.propertyOffers.filter(x => x.propertyId === this.propertyId && x.offerByUserId === this.currentUserId)[0];
+   
+        this.dialog.open(OfferNewComponent, 
+          {
+            data: {
+              propertyOfferId : response?  response.propertyOfferId : 0,
+              offerByUserId: this.currentUserId, 
+              propertyId: this.propertyId,  
+              description :response?  response.description : "",
+              amount : response? response.amount : 0,
+            }
+          });
+      }
 
-    this.dialog.open(OfferNewComponent, 
-      {
-        data: {
-          propertyOfferId : response?  response.propertyOfferId : 0,
-          offerByUserId: response?   this.currentUserId : 0, 
-          propertyId: response?  this.propertyId : 0,   
-          description :response?  response.description : "",
-          amount : response? response.amount : 0,
-        }
-      });
   }
 }
 

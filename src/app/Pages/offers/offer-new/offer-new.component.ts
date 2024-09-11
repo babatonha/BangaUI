@@ -62,11 +62,11 @@ export class OfferNewComponent implements OnInit {
 
   
  onSubmit(){
-  if(this.myForm.valid){
+  
+  if(this.myForm.valid && this.data.propertyId > 0 && this.data.offerByUserId > 0){
     let offer : Offer  = this.myForm.value;
     offer.propertyId = this.data.propertyId;
     offer.offerByUserId =  this.data.offerByUserId;
-
 
     this.spinner.show();
       this.offerService.createOffer(offer).subscribe({

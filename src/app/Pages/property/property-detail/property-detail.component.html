@@ -80,7 +80,7 @@
 
     <div *ngIf="currentUserId===propertyDetails?.property?.ownerId">
       <h2>Current Offers</h2>
-      <app-offer-list [dataSource]="matTablePropertyOffers"></app-offer-list>
+      <app-offer-list [dataSource]="matTablePropertyOffers" (refreshOffers)="getPropertyOffers()"></app-offer-list>
     </div>
   </mat-card-content>
 

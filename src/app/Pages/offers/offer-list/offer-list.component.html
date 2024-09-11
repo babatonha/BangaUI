@@ -15,18 +15,18 @@
   
     <ng-container matColumnDef="buyerName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Buyer Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.buyerName}} </td>
+      <td mat-cell *matCellDef="let row" [ngClass]="{'accepted-row': row.isAccepted}"> {{row.buyerName}} </td>
     </ng-container>
 
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Offer </th>
-      <td mat-cell *matCellDef="let row"> {{row.amount | currency}} </td>
+      <td mat-cell *matCellDef="let row" [ngClass]="{'accepted-row': row.isAccepted}"> {{row.amount | currency}} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-flat-button color="primary" (click)="acceptOffer(row.propertyOfferId)" >Accept</button>
+      <td mat-cell *matCellDef="let row" [ngClass]="{'accepted-row': row.isAccepted}">
+        <button mat-flat-button color="primary" (click)="acceptOffer(row.propertyOfferId)" >{{row.isAccepted ? 'Reject Offer' : 'Accept Offer'}}</button>
        </td>
     </ng-container>
 

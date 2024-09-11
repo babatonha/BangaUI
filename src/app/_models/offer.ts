@@ -8,4 +8,5 @@ export interface Offer{
     createdDate : Date;
     lastUpdatedDate : Date;
     isAccepted : boolean;
+    isOfferConfirmed: boolean;
 }

@@ -36,7 +36,7 @@ import { User } from '../../_models/user';
 export class NavBarComponent implements OnInit {
 
   loggedInUser: User | undefined;
-  currentUserRole: string = "User";
+  currentUserRole: string = "Admin";
 
 
   switchTheme  = new FormControl(false);

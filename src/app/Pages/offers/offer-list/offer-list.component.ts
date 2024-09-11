@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,6 +40,8 @@ export class OfferListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  @Output() refreshOffers: EventEmitter<string> = new EventEmitter<string>();
+
   constructor( private toastr: ToastrService,
     private spinner: NgxSpinnerService, 
     private offerService: OfferService,) { }
@@ -66,11 +68,12 @@ export class OfferListComponent implements OnInit {
       const offer = this.dataSource.data.filter(x => x.propertyOfferId === propertyOfferId)[0];
 
       if(offer){
-        offer.isAccepted =true;
+        offer.isAccepted =!offer.isAccepted;
         this.spinner.show();
         this.offerService.createOffer(offer).subscribe({
           next: response => {
             this.toastr.success("Successfully Accepted");
+            this.refreshOffers.emit("");
             this.spinner.hide();
           }
         })
